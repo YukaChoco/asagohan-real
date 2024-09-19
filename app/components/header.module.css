@@ -1,0 +1,15 @@
+.header {
+    position: fixed;
+    /* ヘッダーを固定 */
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #402011;
+    color: #f4f4e4;
+    z-index: 1000;
+    /* 他の要素よりも前に表示 */
+    border-bottom: 3px dashed #ccc;
+    /* 点線のスタイル */
+    display: flex;
+    justify-content: space-between;
+}

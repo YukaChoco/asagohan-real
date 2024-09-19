@@ -1,0 +1,141 @@
+.h1 {
+
+    font-size: 1em;
+
+}
+
+.arrow {
+    font-size: 30px;
+    color: #f4f4e4;
+}
+
+.acount_name {
+    font-size: 10px;
+}
+
+.first {
+    display: flex;
+    align-items: center;
+}
+
+.next {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.main {
+    margin: 80px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.acount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+
+
+.third {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.time {
+    display: flex;
+}
+
+.container {
+    display: flex;
+    /* Flexboxを有効に */
+    justify-content: center;
+    /* 横方向の中央揃え */
+}
+
+.post {
+    max-width: 100%;
+    /* 画像が親要素を超えないようにする */
+    height: auto;
+    /* 高さを自動調整 */
+}
+
+.forth {
+    height: 50px;
+}
+
+.button {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+}
+
+.good {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+.good_count {
+    margin-right: 10px;
+}
+
+.goodcount {
+    font-size: 10px;
+}
+
+.comment {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.commentcount {
+    font-size: 10px;
+}
+
+.title {
+    font-size: 1em;
+    width: fit-content;
+    margin: 0 auto;
+    padding-top: 10px;
+}
+
+.asagohan {
+    position: relative;
+    width: 100%;
+    padding: 40px 0;
+    border-bottom: 3px solid var(--light);
+}
+
+.rankingstar {
+    position: relative;
+    width: 100%;
+    height: 70px;
+}
+
+.star {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.rankingcount {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    font-size: 20px;
+    position: absolute;
+    /*文字にabsolute*/
+
+    /*中央寄せの「おまじない」*/
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

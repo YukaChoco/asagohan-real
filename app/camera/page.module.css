@@ -1,0 +1,54 @@
+.h1 {
+    font-size: 1em;
+    margin-left: 10px;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* 上と下に要素を配置する */
+    height: 100vh;
+    /* ページ全体を画面の高さに */
+}
+
+
+
+.main {
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    position: relative;
+}
+
+.container {
+    display: flex;
+    /* Flexboxを有効に */
+    justify-content: center;
+    /* 横方向の中央揃え */
+    align-items: center;
+    flex-grow: 1;
+    margin-bottom: 145px;
+    position: fixed
+}
+
+.camera_button {
+    position: absolute;
+    bottom: 30px;
+    transform: translateX(-50%);
+    left: 50%;
+    width: 80px;
+    height: 80px;
+}
+
+.cameraFeed {
+    width: 380px;
+    height: 380px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #000;
+}
+
