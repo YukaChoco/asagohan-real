@@ -4,6 +4,9 @@ import { ChangeEvent, useState } from "react";
 import Image from 'next/image';
 import { Box, Button, colors, Modal, TextField, Typography } from "@mui/material";
 import React from "react";
+import supabase from "../supabase";
+import usePostAsagohan from "../hooks/usePostAsagohan";
+import { title } from "process";
 
 const modalStyle = {
     position: 'absolute' as 'absolute',
@@ -23,6 +26,9 @@ export default function Home() {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [open, setOpen] = useState(false);
     const [newName, setNewName] = useState<string>("");
+    const [postData, setPostData] = useState<{ name: string, image: string } | null>(null);
+    const { postAsagohan } = usePostAsagohan();
+
 
     // Handle image upload and open modal after the image is loaded
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -49,10 +55,13 @@ export default function Home() {
 
     // Handle the "完了" button click
     const handleSubmit = () => {
-        console.log("タイトル: ", newName); // Log the new name for now
-        setOpen(false); // Close the modal after submitting
+        postAsagohan(title, result);
+        setPostData({ name: newName, image: selectedImage || "" });
+        setOpen(false);
+        setNewName(""); // Reset the name input
+        setSelectedImage(null); // Reset the image input if needed
     };
-
+    
     return (
         <div className={styles.page}>
             <h1 className={styles.h1}>
@@ -80,13 +89,27 @@ export default function Home() {
                     />
                 </label>
 
-                <Image
-                    className={styles.post}
-                    src={selectedImage || "朝ごはん投稿画像.svg"}
-                    alt="朝ごはん投稿画像"
-                    width={400}
-                    height={400}
-                />
+                {postData ? (
+    <div>
+        <Image
+            className={styles.post}
+            src={postData.image || "朝ごはん投稿画像.svg"}
+            alt="朝ごはん投稿画像"
+            width={400}
+            height={400}
+        />
+        <p>{postData.name}</p>
+    </div>
+) : (
+    <Image
+        className={styles.post}
+        src={selectedImage || "朝ごはん投稿画像.svg"}
+        alt="朝ごはん投稿画像"
+        width={400}
+        height={400}
+    />
+)}
+
 
                 {/* Button to manually open the modal */}
                 <Button onClick={handleOpen}>Open modal</Button>
