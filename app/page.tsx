@@ -43,7 +43,7 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <Header>
-        <div className={styles.first}>
+        <div className={styles.first} onClick={() => window.location.reload()}>
           <Image
             className={styles.aikon}
             src="ロゴアイコン.svg"
@@ -51,7 +51,7 @@ export default function Home() {
             width={60}
             height={60}
           />
-          <h1 className={styles.h1}>
+          <h1 className={styles.h1} onClick={() => window.location.reload()}>
             起きろ!
             <br />
             朝ごはんReal.

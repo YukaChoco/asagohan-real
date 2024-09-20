@@ -54,11 +54,13 @@ export default function Home() {
   };
 
   // Handle the "完了" button click
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log("タイトル: ", newName); // Log the new name for now
     setOpen(false); // Close the modal
     if (inputFile) {
-      postAsagohan(newName, inputFile); // Post }the new name and the image
+      await postAsagohan(newName, inputFile); // Post }the new name and the image
+      //   homeへ
+      window.location.href = "/";
     } else {
       console.error("画像が選択されていません");
     }
@@ -66,7 +68,12 @@ export default function Home() {
 
   return (
     <div className={styles.page}>
-      <h1 className={styles.h1}>
+      <h1
+        className={styles.h1}
+        onClick={() => {
+          window.location.href = "/";
+        }}
+      >
         起きろ!
         <br />
         朝ごはんReal.
