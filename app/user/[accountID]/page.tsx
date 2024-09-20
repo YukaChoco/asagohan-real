@@ -72,7 +72,7 @@ export default function Home({ params }: { params: { accountID: string } }) {
   };
 
   if (authLoading || todayUserProfileFetching) {
-    return <Loading />
+    return <Loading />;
   }
   if (!userProfile) {
     return <main>Not Found</main>;
