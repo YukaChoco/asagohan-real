@@ -96,7 +96,7 @@ export default function Home() {
         setLoading(false);
         console.log("postUser");
         setTimeout(() => {
-          window.location.href = "/home";
+          window.location.href = "/";
         }, 1000);
       }
     } catch (error) {
