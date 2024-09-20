@@ -101,6 +101,8 @@ export default function Home() {
       }
     } catch (error) {
       setErrorMessage(`登録中にエラーが発生しました: ${error}`);
+    } finally {
+      setLoading(false);
     }
   };
 
