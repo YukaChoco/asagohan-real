@@ -4,6 +4,8 @@ import { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import { Box, Button, Modal, TextField } from "@mui/material";
 import React from "react";
+import usePostAsagohan from "../hooks/usePostAsagohan";
+import useUserAuth from "../hooks/useUserAuth";
 
 const modalStyle = {
   position: "absolute",
@@ -20,14 +22,18 @@ const modalStyle = {
 };
 
 export default function Home() {
+  const { userID } = useUserAuth();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [inputFile, setInputFile] = useState<File | null>(null);
   const [open, setOpen] = useState(false);
   const [newName, setNewName] = useState<string>("");
+  const { postAsagohan } = usePostAsagohan(userID || "");
 
   // Handle image upload and open modal after the image is loaded
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setInputFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setSelectedImage(reader.result as string);
@@ -50,7 +56,12 @@ export default function Home() {
   // Handle the "完了" button click
   const handleSubmit = () => {
     console.log("タイトル: ", newName); // Log the new name for now
-    setOpen(false); // Close the modal after submitting
+    setOpen(false); // Close the modal
+    if (inputFile) {
+      postAsagohan(newName, inputFile); // Post }the new name and the image
+    } else {
+      console.error("画像が選択されていません");
+    }
   };
 
   return (
