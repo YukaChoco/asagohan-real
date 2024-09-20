@@ -8,7 +8,7 @@ const useUserProfile = (accountID: string) => {
   const [fetching, setFetching] = useState(true);
 
   const getUserProfile = async (accountID: string): Promise<UserProfile> => {
-    const res = await fetch(`http://localhost:3000/api/user/${accountID}`);
+    const res = await fetch(`/api/user/${accountID}`);
     if (!res.ok) {
       throw new Error("Failed to fetch data");
     }
@@ -32,16 +32,13 @@ const useUserProfile = (accountID: string) => {
 
   const updateUserName = async (newName: string) => {
     if (userProfile) {
-      const res = await fetch(
-        `http://localhost:3000/api/user/${accountID}/name`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ name: newName }),
-        }
-      );
+      const res = await fetch(`/api/user/${accountID}/name`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: newName }),
+      });
       if (!res.ok) {
         throw new Error("Failed to update user name");
       } else {
@@ -57,6 +54,7 @@ const useUserProfile = (accountID: string) => {
     if (userProfile) {
       const removeHyphen = (id: string) => id.replace(/-/g, "");
 
+      console.log(`${removeHyphen(userProfile.id)}.png`);
       const { error } = await supabase.storage
         .from("user_icons")
         .update(`${removeHyphen(userProfile.id)}.png`, newIcon);

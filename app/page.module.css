@@ -1,104 +1,142 @@
-
-.h1{
+.h1 {
   font-size: 0.9em;
 }
 
-.first{
+.first {
   display: flex;
   align-items: center;
 }
-.next{
+
+.next {
   display: flex;
   align-items: flex-end;
   gap: 10px;
 }
 
-.main{
- padding: 80px 10px;
- display: flex;
- flex-direction: column;
- border-bottom: 3px solid #f4f4e4;
+.main {
+  padding: 80px 10px;
+  display: flex;
+  flex-direction: column;
 }
 
-.acount{
+.userpush {
+  padding-bottom: 80px;
+  border-bottom: 3px solid #f4f4e4;
+}
+
+.drawer {
+  display: flex;
+  width: auto;
+  padding: 20px;
+  height: 50vh;
+  background-Color: #f4f4e4;
+  flex-direction: column;
+}
+
+.usercomment {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.useravator {
+  display: flex;
+}
+
+.timecommnet {
+  display: flex;
+}
+
+.commentpush {
+  display: flex;
+}
+
+.acount {
   display: flex;
   justify-content: space-between;
 }
 
-.third{
- display: flex;
- align-items: center;
- gap: 10px;
+.third {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.time{
+.time {
   display: flex;
 }
 
 .container {
-  display: flex; /* Flexboxを有効に */
-  justify-content: center; /* 横方向の中央揃え */
+  margin: 0 auto;
+  position: relative;
+  width: 319px;
+  height: 229px;
 }
 
-.post{
-  max-width: 100%; /* 画像が親要素を超えないようにする */
-  height: auto; /* 高さを自動調整 */
+.post {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  clip-path: path('M63.8 229C55.0275 229 47.5177 226.778 41.2706 222.334C35.0235 217.889 31.9 212.547 31.9 206.306L31.9 84.5348C22.0642 80.3742 14.2885 74.8426 8.57312 67.9398C2.85771 61.0371 0 53.5198 0 45.3878C0 32.9062 6.24708 22.2211 18.7413 13.3327C31.2354 4.44422 46.255 0 63.8 0L255.2 0C272.745 0 287.765 4.44422 300.259 13.3327C312.753 22.2211 319 32.9062 319 45.3878C319 53.5198 316.142 61.0371 310.427 67.9398C304.711 74.8426 296.936 80.3742 287.1 84.5348V206.306C287.1 212.547 283.977 217.889 277.729 222.334C271.482 226.778 263.973 229 255.2 229L63.8 229Z');
+  /* SVGのclipPathを指定 */
 }
 
-.forth{
+.forth {
   height: 50px;
 }
 
-.button{
+.button {
   display: flex;
   position: absolute;
   gap: 10px;
 }
 
-.good{
+.good {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.goodcount{
+.goodcount {
   font-size: 10px;
 }
 
-.comment{
+.comment {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.commentcount{
+.commentcount {
   font-size: 10px;
 }
 
-.title{
+.title {
   font-size: 1em;
   width: fit-content;
   margin: 0 auto;
   padding-top: 10px;
 }
 
-.rankingstar{
-  position: absolute; /*親要素にrelative*/
+.rankingstar {
+  position: absolute;
+  /*親要素にrelative*/
   top: 390px;
   right: 30px;
 }
 
-.star{
+.star {
   width: 100%;
 }
 
-.rankingcount{
+.rankingcount {
   margin: 0;
   font-size: 20px;
-  position: absolute; /*文字にabsolute*/
+  position: absolute;
+  /*文字にabsolute*/
 
-   /*中央寄せの「おまじない」*/
-   top: 50%;
-   left: 50%;
-   transform: translate(-50%, -50%);
+  /*中央寄せの「おまじない」*/
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

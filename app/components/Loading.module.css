@@ -1,0 +1,16 @@
+/* Center the container div in the viewport */
+.page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    min-height: 100vh; /* Full viewport height */
+    text-align: center; /* Center text */
+  }
+  
+  /* Optional: Style for the image if needed */
+  .bread {
+    max-width: 100%; /* Responsive image width */
+    height: auto; /* Maintain aspect ratio */
+  }
+  

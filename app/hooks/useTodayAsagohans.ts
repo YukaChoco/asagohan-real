@@ -53,35 +53,29 @@ const useTodayAsagohans = (userID: string) => {
     const likes = asagohan.likes;
     if (!isLiked) {
       setAsagohanLike(asagohan.id, true, asagohan.likes + 1);
-      const res = await fetch(
-        `http://localhost:3000/api/asagohan/${asagohanID}/like`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userID: userID,
-          }),
-        }
-      );
+      const res = await fetch(`/api/asagohan/${asagohanID}/like`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userID: userID,
+        }),
+      });
       if (res.status !== 201) {
         console.error(res.statusText);
       }
     } else {
       setAsagohanLike(asagohan.id, false, asagohan.likes - 1);
-      const res = await fetch(
-        `http://localhost:3000/api/asagohan/${asagohanID}/like`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userID: userID,
-          }),
-        }
-      );
+      const res = await fetch(`/api/asagohan/${asagohanID}/like`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userID: userID,
+        }),
+      });
       if (res.status !== 200) {
         console.error(res.statusText);
       }

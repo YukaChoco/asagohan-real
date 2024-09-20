@@ -1,38 +1,30 @@
 .h1 {
     font-size: 1em;
-    margin-left: 10px;
+    margin: 0;
+    padding: 15px;
+    text-align: left;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: auto;
+    height: auto;
 }
 
 .page {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    /* 上と下に要素を配置する */
+    align-items: center;
+    justify-content: center;
     height: 100vh;
-    /* ページ全体を画面の高さに */
+    /* Full screen height */
+    padding: 20px;
 }
 
-
-
-.main {
-    padding: 0 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1;
-    position: relative;
-}
-
-.container {
-    display: flex;
-    /* Flexboxを有効に */
-    justify-content: center;
-    /* 横方向の中央揃え */
-    align-items: center;
-    flex-grow: 1;
-    margin-bottom: 145px;
-    position: fixed
+.post {
+    display: block;
+    margin: 0 auto;
+    width: 400px;
+    height: 400px;
 }
 
 .camera_button {
@@ -52,3 +44,9 @@
     border: 2px solid #000;
 }
 
+.imageContainer {
+    position: relative; /* Required for Image component with 'fill' layout */
+    width: 400px; /* Same as the original 朝ごはん投稿画像 */
+    height: 400px; /* Same as the original 朝ごはん投稿画像 */
+    overflow: hidden; /* To maintain aspect ratio and avoid overflow */
+}

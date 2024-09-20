@@ -5,13 +5,16 @@ import Link from "next/link";
 import Header from "@/app/components/Header";
 import { Avatar } from "@mui/material";
 import useRankingAsagohans from "../hooks/useRankingAsagohans";
+import useUserAuth from "../hooks/useUserAuth";
+import Loading from "../components/Loading";
 
 export default function Home() {
+  const { authLoading } = useUserAuth();
   const { asagohans, rankingAsagohansFetching } = useRankingAsagohans();
   console.log(asagohans, rankingAsagohansFetching);
 
-  if (rankingAsagohansFetching) {
-    return <main>loading...</main>;
+  if (authLoading || rankingAsagohansFetching) {
+    return <Loading />
   }
   if (!asagohans) {
     return <main>データが存在しません</main>;
