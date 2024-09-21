@@ -7,7 +7,7 @@ interface UserResponse {
 
 export async function GET(
   _: Request,
-  { params }: { params: { userID: string } }
+  { params }: { params: { userID: string } },
 ) {
   const userID = params.userID;
 

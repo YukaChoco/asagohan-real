@@ -38,7 +38,7 @@
 
 .arrow {
   color: #f4f4e4;
-    font-size: 30px;
+  font-size: 30px;
 }
 
 .iconPicture {
@@ -56,7 +56,6 @@
   width: 100%;
 }
 
-
 .usericonTextContainer {
   width: 100%;
   display: flex;
@@ -73,8 +72,6 @@
   margin-bottom: 0%;
   padding-left: 10px;
 }
-
-
 
 .profile1 {
   display: flex;
@@ -142,7 +139,10 @@
   padding: 0 20px;
   border: none;
   border: 1px solid transparent;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
   cursor: pointer;
   display: flex;
   align-items: center;

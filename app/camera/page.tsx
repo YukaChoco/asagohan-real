@@ -6,6 +6,7 @@ import { Box, Button, Modal, TextField } from "@mui/material";
 import React from "react";
 import usePostAsagohan from "../hooks/usePostAsagohan";
 import useUserAuth from "../hooks/useUserAuth";
+import Loading from "../components/Loading";
 
 const modalStyle = {
   position: "absolute",
@@ -27,7 +28,7 @@ export default function Home() {
   const [inputFile, setInputFile] = useState<File | null>(null);
   const [open, setOpen] = useState(false);
   const [newName, setNewName] = useState<string>("");
-  const { postAsagohan } = usePostAsagohan(userID || "");
+  const { postAsagohan, asagohanSending } = usePostAsagohan(userID || "");
 
   // Handle image upload and open modal after the image is loaded
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -65,6 +66,14 @@ export default function Home() {
       console.error("画像が選択されていません");
     }
   };
+
+  if (!userID) {
+    return <main>ログインしてください</main>;
+  }
+
+  if (asagohanSending) {
+    return <Loading />;
+  }
 
   return (
     <div className={styles.page}>

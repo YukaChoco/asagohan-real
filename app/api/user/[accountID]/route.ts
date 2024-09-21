@@ -16,7 +16,7 @@ interface UserResponse {
 
 export async function GET(
   _: Request,
-  { params }: { params: { accountID: string } }
+  { params }: { params: { accountID: string } },
 ) {
   const accountID = params.accountID;
 
@@ -28,7 +28,7 @@ export async function GET(
       name,
       account_id,
       asagohans (id, created_at, likes (user_id))
-      `
+      `,
     )
     .eq("account_id", accountID)
     .single<UserResponse>();
@@ -50,7 +50,7 @@ export async function GET(
     const date = new Date();
     date.setDate(date.getDate() + i - 7);
     const targetAsagohan = asagohans.find(
-      (asagohan) => new Date(asagohan.created_at).getDate() === date.getDate()
+      (asagohan) => new Date(asagohan.created_at).getDate() === date.getDate(),
     );
     return targetAsagohan
       ? {
@@ -70,7 +70,7 @@ export async function GET(
       }
       return best;
     },
-    { id: "0", likes: 0 }
+    { id: "0", likes: 0 },
   );
 
   const publicAsagohanURLresponseData = await supabase.storage

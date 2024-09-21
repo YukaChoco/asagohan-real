@@ -20,21 +20,73 @@ import Loading from "./components/Loading";
 export default function Home() {
   const { userID, accountID, authLoading } = useUserAuth();
   const { asagohans, todayAsagohansFetching, onClickLike } = useTodayAsagohans(
-    userID || ""
+    userID || "",
   );
   const [selectedAsagohan, setSelectedAsagohan] = useState<Asagohan | null>(
-    null
+    null,
   );
 
   if (authLoading || todayAsagohansFetching) {
     return <Loading />;
   }
+
   if (!asagohans || asagohans.length === 0) {
-    return <main>本日の朝ごはんはまだ投稿されていません</main>;
+    return (
+      <div className={styles.page}>
+        <Header>
+          <div
+            className={styles.first}
+            onClick={() => window.location.reload()}
+          >
+            <Image
+              className={styles.aikon}
+              src="ロゴアイコン.svg"
+              alt="ロゴアイコン画像"
+              width={60}
+              height={60}
+            />
+            <h1 className={styles.h1} onClick={() => window.location.reload()}>
+              起きろ!
+              <br />
+              朝ごはんReal.
+            </h1>
+          </div>
+          <div className={styles.next}>
+            <Link href={"/camera"}>
+              <Image
+                className={styles.camera}
+                src="投稿カメラ.svg"
+                alt="投稿カメラ画像"
+                width={50}
+                height={50}
+              />
+            </Link>
+            <Link href={"/ranking"}>
+              <Image
+                className={styles.ranking}
+                src="ランキング画像.svg"
+                alt="ランキング画像"
+                width={50}
+                height={50}
+              />
+            </Link>
+            <Link href={`user/${accountID}`}>
+              <Image
+                className={styles.profile}
+                src="プロフィール画像.svg"
+                alt="プロフィール画像"
+                width={50}
+                height={50}
+              />
+            </Link>
+          </div>
+        </Header>
+        <main>誰もまだ朝ごはんを投稿していません</main>
+      </div>
+    );
   }
 
   const handleClick = (asagohan: Asagohan) => {
-    console.log("クリックされました");
     onClickLike(asagohan);
   };
 
