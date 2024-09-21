@@ -2,7 +2,7 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import styles from "./page.module.css";
 import Avatar from "@mui/material/Avatar";
-import { Badge } from "@mui/material";
+import { Badge, Button } from "@mui/material";
 import supabase from "../supabase";
 import usePostUser from "../hooks/usePostUser";
 import Loading from "../components/Loading";
@@ -119,96 +119,102 @@ export default function Home() {
   }
 
   return (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <h1 className={styles.title}>新規アカウント登録</h1>
 
-      <div className={styles.iconPicture}>
-        <div className={styles.changeIcon}>
-          <Badge
-            overlap="circular"
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            badgeContent={
-              <label htmlFor="file-input">
-                <SmallAvatar alt="camera" src="/camera.svg" />
-                <input
-                  id="file-input"
-                  type="file"
-                  capture="environment"
-                  accept="image/png"
-                  style={{ display: "none" }}
-                  onChange={handleImageChange}
-                />
-              </label>
-            }
-          >
-            <Avatar
-              className={styles.icon}
-              src={selectedImage || "/default_icon.svg"}
-              alt="default Icon"
-              sx={{ width: "170px", height: "170px" }}
-            />
-          </Badge>
+      <form className={styles.form} onSubmit={handleSubmit} id="sign-up">
+        <div className={styles.iconPicture}>
+          <div className={styles.changeIcon}>
+            <Badge
+              overlap="circular"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              badgeContent={
+                <label htmlFor="file-input">
+                  <SmallAvatar alt="camera" src="/camera.svg" />
+                  <input
+                    id="file-input"
+                    type="file"
+                    capture="environment"
+                    accept="image/png"
+                    style={{ display: "none" }}
+                    onChange={handleImageChange}
+                  />
+                </label>
+              }
+            >
+              <Avatar
+                className={styles.icon}
+                src={selectedImage || "/default_icon.svg"}
+                alt="default Icon"
+                sx={{ width: "170px", height: "170px" }}
+              />
+            </Badge>
+          </div>
         </div>
-      </div>
 
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="アカウントID"
-          className={styles.input}
-          value={accountID}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setAccountID(e.target.value)
-          }
-        />
-        <input
-          type="text"
-          placeholder="ユーザ名"
-          className={styles.input}
-          value={username}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setUsername(e.target.value)
-          }
-        />
-        <input
-          type="email"
-          placeholder="メールアドレス"
-          className={styles.input}
-          value={email}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setEmail(e.target.value)
-          }
-        />
-        <input
-          type="password"
-          placeholder="パスワード (半角英数字)"
-          className={styles.input}
-          value={password}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setPassword(e.target.value)
-          }
-        />
-        <input
-          type="password"
-          placeholder="パスワード (再入力)"
-          className={styles.input}
-          value={confirmPassword}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setConfirmPassword(e.target.value)
-          }
-        />
+        <div className={styles.inputContainer}>
+          <input
+            type="text"
+            placeholder="アカウントID"
+            className={styles.input}
+            value={accountID}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setAccountID(e.target.value)
+            }
+          />
+          <input
+            type="text"
+            placeholder="ユーザ名"
+            className={styles.input}
+            value={username}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setUsername(e.target.value)
+            }
+          />
+          <input
+            type="email"
+            placeholder="メールアドレス"
+            className={styles.input}
+            value={email}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setEmail(e.target.value)
+            }
+          />
+          <input
+            type="password"
+            placeholder="パスワード (半角英数字)"
+            className={styles.input}
+            value={password}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setPassword(e.target.value)
+            }
+          />
+          <input
+            type="password"
+            placeholder="パスワード (再入力)"
+            className={styles.input}
+            value={confirmPassword}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setConfirmPassword(e.target.value)
+            }
+          />
+        </div>
 
         {errorMessage && <p className={styles.error}>{errorMessage}</p>}
         {successMessage && <p className={styles.success}>{successMessage}</p>}
-
-        <button
-          type="submit"
-          className={styles.button}
-          disabled={!isButtonEnabled || userSending}
-        >
-          新規登録
-        </button>
       </form>
-    </div>
+
+      <Button
+        variant="outlined"
+        form="sign-up"
+        type="submit"
+        className={styles.button}
+        disabled={!isButtonEnabled || userSending}
+        fullWidth
+        sx={{ mt: 2 }}
+      >
+        新規登録
+      </Button>
+    </main>
   );
 }
