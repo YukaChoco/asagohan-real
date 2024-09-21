@@ -74,8 +74,21 @@ export default function Home({ params }: { params: { accountID: string } }) {
   if (authLoading || todayUserProfileFetching) {
     return <Loading />;
   }
+
   if (!userProfile) {
-    return <main>Not Found</main>;
+    return (
+      <div className={styles.page}>
+        <Header>
+          <Link className={styles.arrow} href={"/"}>
+            ←
+          </Link>
+          <h1 className={styles.h1}>ユーザプロフィール</h1>
+          <div></div>
+        </Header>
+
+        <main>Not Found</main>
+      </div>
+    );
   }
 
   const modalStyle = {

@@ -3,12 +3,14 @@ import { useState, ChangeEvent, FormEvent } from "react";
 import styles from "./page.module.css";
 import supabase from "../supabase";
 import { Button } from "@mui/material";
+import Loading from "../components/Loading";
 
 export default function Home() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   // 入力が変わるたびにボタンの状態を更新する
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -22,10 +24,12 @@ export default function Home() {
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    setLoading(true);
     e.preventDefault();
     if (!email || !password) {
       setErrorMessage("全て入力してください");
       setSuccessMessage(""); // 成功メッセージはクリア
+      setLoading(false);
       return;
     }
 
@@ -42,7 +46,12 @@ export default function Home() {
       setErrorMessage(""); // エラーメッセージはクリア
       window.history.back();
     }
+    setLoading(false);
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <main className={styles.main}>

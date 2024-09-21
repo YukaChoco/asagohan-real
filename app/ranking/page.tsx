@@ -14,10 +14,22 @@ export default function Home() {
   console.log(asagohans, rankingAsagohansFetching);
 
   if (authLoading || rankingAsagohansFetching) {
-    return <Loading />
+    return <Loading />;
   }
-  if (!asagohans) {
-    return <main>データが存在しません</main>;
+
+  if (!asagohans || asagohans.length === 0) {
+    return (
+      <div className={styles.page}>
+        <Header>
+          <Link className={styles.arrow} href={"/"}>
+            ←
+          </Link>
+          <h1 className={styles.h1}>ランキング！</h1>
+          <div></div>
+        </Header>
+        <main>誰もまだ朝ごはんを投稿していません</main>
+      </div>
+    );
   }
 
   return (
