@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
+    <main>
       <Image
         className={styles.bread}
         src="/bread.png"
@@ -13,6 +13,6 @@ export default function Home() {
         height={200}
       />
       <div>loading......</div>
-    </div>
+    </main>
   );
 }

@@ -2,11 +2,13 @@
 import styles from "./page.module.css";
 import { ChangeEvent, useState } from "react";
 import Image from "next/image";
-import { Box, Button, Modal, TextField } from "@mui/material";
+import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import React from "react";
 import usePostAsagohan from "../hooks/usePostAsagohan";
 import useUserAuth from "../hooks/useUserAuth";
 import Loading from "../components/Loading";
+import Header from "@/app/components/Header";
+import Link from "next/link";
 
 const modalStyle = {
   position: "absolute",
@@ -76,88 +78,90 @@ export default function Home() {
   }
 
   return (
-    <div className={styles.page}>
-      <h1
-        className={styles.h1}
-        onClick={() => {
-          window.location.href = "/";
-        }}
-      >
-        起きろ!
-        <br />
-        朝ごはんReal.
-      </h1>
-
-      <div>
-        <label htmlFor="file-input">
-          <Image
-            className={styles.camera_button}
-            alt="camera_button.svg"
-            src="/camera_button.svg"
-            width={80}
-            height={80}
-          />
-          <input
-            id="file-input"
-            type="file"
-            capture="environment"
-            accept="image/png"
-            style={{ display: "none" }}
-            onChange={handleImageChange}
-          />
-        </label>
-
-        <Image
-          className={styles.post}
-          src={selectedImage || "朝ごはん投稿画像.svg"}
-          alt="朝ごはん投稿画像"
-          width={400}
-          height={400}
-        />
-
-        {/* Button to manually open the modal */}
-        <Button onClick={handleOpen}>Open modal</Button>
-
-        {/* Modal structure */}
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
+    <>
+      <main>
+        <h1
+          className={styles.h1}
+          onClick={() => {
+            window.location.href = "/";
+          }}
         >
-          <Box sx={modalStyle}>
-            <TextField
-              id="newName"
-              variant="outlined"
-              fullWidth
-              label="タイトル"
-              name="newName"
-              value={newName}
-              onChange={(e) => setNewName(e.target.value)} // Update newName state when input changes
-              sx={{
-                mt: 2, // Add margin top for better spacing
-                "& .MuiOutlinedInput-root": { fontFamily: "var(--font)" },
-                "& input": {
-                  color: "var(--primary)",
-                },
-                "& label": {
-                  fontFamily: "var(--font)",
-                },
-              }}
-            />
+          起きろ!
+          <br />
+          朝ごはんReal.
+        </h1>
 
-            {/* Button to submit and close the modal */}
-            <Button
-              type="submit"
-              variant="contained"
-              onClick={handleSubmit}
-              sx={{ mt: 2 }} // Add margin top for spacing
-            >
-              完了
-            </Button>
-          </Box>
-        </Modal>
-      </div>
-    </div>
+        <div>
+          <label htmlFor="file-input">
+            <Image
+              className={styles.camera_button}
+              alt="camera_button.svg"
+              src="/camera_button.svg"
+              width={80}
+              height={80}
+            />
+            <input
+              id="file-input"
+              type="file"
+              capture="environment"
+              accept="image/png"
+              style={{ display: "none" }}
+              onChange={handleImageChange}
+            />
+          </label>
+
+          <Image
+            className={styles.post}
+            src={selectedImage || "朝ごはん投稿画像.svg"}
+            alt="朝ごはん投稿画像"
+            width={400}
+            height={400}
+          />
+
+          {/* Button to manually open the modal */}
+          <Button onClick={handleOpen}>Open modal</Button>
+
+          {/* Modal structure */}
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={modalStyle}>
+              <TextField
+                id="newName"
+                variant="outlined"
+                fullWidth
+                label="タイトル"
+                name="newName"
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)} // Update newName state when input changes
+                sx={{
+                  mt: 2, // Add margin top for better spacing
+                  "& .MuiOutlinedInput-root": { fontFamily: "var(--font)" },
+                  "& input": {
+                    color: "var(--primary)",
+                  },
+                  "& label": {
+                    fontFamily: "var(--font)",
+                  },
+                }}
+              />
+
+              {/* Button to submit and close the modal */}
+              <Button
+                type="submit"
+                variant="contained"
+                onClick={handleSubmit}
+                sx={{ mt: 2 }} // Add margin top for spacing
+              >
+                完了
+              </Button>
+            </Box>
+          </Modal>
+        </div>
+      </main>
+    </>
   );
 }
