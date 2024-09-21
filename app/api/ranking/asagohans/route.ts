@@ -29,7 +29,7 @@ export async function GET() {
       title,
       likes (user_id),
       user: user_id (id, name, account_id)
-      `
+      `,
     )
     .gte("created_at", todayStart.toISOString()) // 今日の開始時刻以降
     .lte("created_at", todayEnd.toISOString()) // 今日の終了時刻以前

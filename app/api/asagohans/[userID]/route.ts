@@ -26,7 +26,7 @@ interface AsagohanResponse {
 
 export async function GET(
   _: Request,
-  { params }: { params: { userID: string } }
+  { params }: { params: { userID: string } },
 ) {
   const userID = params.userID;
 
@@ -46,7 +46,7 @@ export async function GET(
       likes (user_id),
       comments (created_at, content, user: user_id (id, name, account_id)),
       user: user_id (id, name, account_id)
-      `
+      `,
     )
     .gte("created_at", todayStart.toISOString()) // 今日の開始時刻以降
     .lte("created_at", todayEnd.toISOString()) // 今日の終了時刻以前
@@ -105,7 +105,7 @@ export async function GET(
         name: comment.user.name,
         accountID: comment.user.account_id,
         userIconPath: `${publicUserIconURL}${removeHyphen(
-          comment.user.id
+          comment.user.id,
         )}.png`,
       },
     })),

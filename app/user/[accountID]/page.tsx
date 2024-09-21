@@ -22,7 +22,7 @@ const SmallAvatar = (
     component: ElementType<JSX.Element, keyof JSX.IntrinsicElements>;
   } & AvatarOwnProps &
     AvatarSlotsAndSlotProps &
-    CommonProps
+    CommonProps,
 ) => <Avatar {...props} sx={{ width: 40, height: 40 }} />;
 
 export default function Home({ params }: { params: { accountID: string } }) {
@@ -62,7 +62,7 @@ export default function Home({ params }: { params: { accountID: string } }) {
   };
 
   const handleFileInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const file = event.target.files?.[0];
     if (!file) return;

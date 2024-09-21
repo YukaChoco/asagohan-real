@@ -18,6 +18,6 @@ export async function POST(request: Request) {
 
   return Response.json(
     { message: "Created successfully!", createdIDs: data },
-    { status: 201 }
+    { status: 201 },
   );
 }

@@ -2,7 +2,7 @@ import supabase from "@/app/supabase";
 
 export async function PUT(
   request: Request,
-  { params }: { params: { accountID: string } }
+  { params }: { params: { accountID: string } },
 ) {
   const accountID = params.accountID;
   const { name } = await request.json();

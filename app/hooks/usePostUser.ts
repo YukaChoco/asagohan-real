@@ -9,7 +9,7 @@ const usePostUser = () => {
     userID: string,
     name: string,
     accountID: string,
-    userIcon: File
+    userIcon: File,
   ) => {
     setSending(true);
     const res = await fetch(`/api/user/new`, {
