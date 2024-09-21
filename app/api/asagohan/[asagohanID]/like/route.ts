@@ -2,7 +2,7 @@ import supabase from "@/app/supabase";
 
 export async function POST(
   request: Request,
-  { params }: { params: { asagohanID: string } }
+  { params }: { params: { asagohanID: string } },
 ) {
   const asagohanID = params.asagohanID;
   console.log(asagohanID);
@@ -22,7 +22,7 @@ export async function POST(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { asagohanID: string } }
+  { params }: { params: { asagohanID: string } },
 ) {
   const { asagohanID } = params;
   const { userID } = await request.json();

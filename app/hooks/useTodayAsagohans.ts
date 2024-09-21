@@ -32,7 +32,7 @@ const useTodayAsagohans = (userID: string) => {
   const setAsagohanLike = async (
     asagohanID: string,
     newIsLiked: boolean,
-    newLikes: number
+    newLikes: number,
   ) => {
     if (asagohans) {
       const updatedAsagohans = asagohans.map((asagohan) => {
