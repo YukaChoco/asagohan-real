@@ -49,13 +49,15 @@ export async function GET() {
     .from("asagohans")
     .getPublicUrl("");
   const publicUserIconURLresponseData = await supabase.storage
-    .from("user-icons")
+    .from("user_icons")
     .getPublicUrl("");
   const publicAsagohanURL = publicAsagohanURLresponseData.data.publicUrl || "";
   const publicUserIconURL = publicUserIconURLresponseData.data.publicUrl || "";
 
   // いいね数でソート
   const sortedData = data.sort((a, b) => b.likes.length - a.likes.length);
+
+  const removeHyphen = (id: string) => id.replace(/-/g, "");
 
   // 上位3位のみを取得
   const asagohans: RankingAsagohan[] = sortedData
@@ -68,7 +70,9 @@ export async function GET() {
         id: asagohan.user.id,
         name: asagohan.user.name,
         accountID: asagohan.user.account_id,
-        userIconPath: `${publicUserIconURL}${asagohan.user.id}.png`,
+        userIconPath: `${publicUserIconURL}${removeHyphen(
+          asagohan.user.id,
+        )}.png`,
       },
       ranking: index + 1,
     }));
