@@ -49,7 +49,7 @@ export async function GET() {
     .from("asagohans")
     .getPublicUrl("");
   const publicUserIconURLresponseData = await supabase.storage
-    .from("user-icons")
+    .from("user_icons")
     .getPublicUrl("");
   const publicAsagohanURL = publicAsagohanURLresponseData.data.publicUrl || "";
   const publicUserIconURL = publicUserIconURLresponseData.data.publicUrl || "";

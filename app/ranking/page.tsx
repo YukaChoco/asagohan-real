@@ -44,6 +44,7 @@ export default function Home() {
 
       <main className={styles.main}>
         {asagohans.map((asagohan, index) => {
+          console.log(asagohan.user.userIconPath);
           return (
             <div key={index} className={styles.asagohan}>
               <div className={styles.rankingstar}>

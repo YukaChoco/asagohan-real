@@ -81,7 +81,9 @@ export default function Home() {
             </Link>
           </div>
         </Header>
-        <main>誰もまだ朝ごはんを投稿していません</main>
+        <main className={styles.notAsagohan}>
+          誰もまだ朝ごはんを投稿していません
+        </main>
       </div>
     );
   }

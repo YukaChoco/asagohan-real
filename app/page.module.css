@@ -1,3 +1,7 @@
+.notAsagohan {
+  justify-content: center;
+}
+
 .h1 {
   font-size: 0.9em;
 }
@@ -14,12 +18,11 @@
 }
 
 .main {
-  padding: 80px 10px;
-  display: flex;
-  flex-direction: column;
+  padding: 80px 20px 10px 20px;
 }
 
 .userpush {
+  width: 100%;
   padding-bottom: 80px;
   border-bottom: 3px solid #f4f4e4;
 }
