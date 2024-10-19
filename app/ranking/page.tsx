@@ -60,7 +60,7 @@ export default function Home() {
               <div className={styles.acount}>
                 <div className={styles.third}>
                   <Avatar alt="投稿者イラスト" src="user_image.png" />
-                  <div className={styles.account_name}>アカウント名</div>
+                  <div className={styles.account_name}>{asagohan.user.name}</div>
                 </div>
                 <div className={styles.button}>
                   <div className={styles.good}>
