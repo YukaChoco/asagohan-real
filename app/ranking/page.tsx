@@ -59,15 +59,17 @@ export default function Home() {
 
               <div className={styles.acount}>
                 <div className={styles.third}>
-                  <Avatar alt="投稿者イラスト" src="user_image.png" />
-                  <div className={styles.account_name}>アカウント名</div>
+                  <Avatar alt="投稿者イラスト" src={asagohan.user.userIconPath} />
+
+
+                  <div className={styles.account_name}>{asagohan.user.name}</div>
                 </div>
                 <div className={styles.button}>
                   <div className={styles.good}>
                     <div className={styles.good_count}>{asagohan.likes}</div>
                     <Image
                       className={styles.goodbutton}
-                      src="いいねボタン.svg"
+                      src="いいね前のボタン.svg"
                       alt="いいねボタン画像"
                       width={25}
                       height={25}
@@ -76,16 +78,18 @@ export default function Home() {
                 </div>
               </div>
               <div className={styles.container}>
+
                 <Image
                   className={styles.post}
-                  src="朝ごはん投稿画像.svg"
-                  alt="朝ごはん投稿画像"
+                  src={asagohan.imagePath}
+                  alt={asagohan.title}
                   width={300}
                   height={300}
                 />
               </div>
               <div className={styles.forth}>
                 <p className={styles.title}>{asagohan.title}</p>
+
               </div>
             </div>
           );
