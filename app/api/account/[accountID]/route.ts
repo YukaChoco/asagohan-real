@@ -63,18 +63,22 @@ export async function GET(
       : { id: "0", created_at: date.toISOString() };
   });
 
-  const bestAsagohan = asagohans.reduce(
-    (best, asagohan) => {
-      if (asagohan.likes.length > best.likes) {
-        return {
-          id: asagohan.id,
-          likes: asagohan.likes.length,
-        };
-      }
-      return best;
-    },
-    { id: "0", likes: 0 },
-  );
+  const bestAsagohan =
+    asagohans.length > 0
+      ? asagohans.reduce(
+          (best, asagohan) => {
+            if (asagohan.likes.length > best.likes) {
+              return {
+                id: asagohan.id,
+                likes: asagohan.likes.length,
+              };
+            }
+            return best;
+          },
+          { id: asagohans[0].id, likes: asagohans[0].likes.length },
+        )
+      : null;
+  const bestAsagohanID = bestAsagohan ? bestAsagohan.id : "0";
 
   const publicAsagohanURL = await getPublicBucketURL("asagohans");
   const publicUserIconsURL = await getPublicBucketURL("user_icons");
@@ -90,8 +94,8 @@ export async function GET(
     accountID: data.account_id,
     userIconPath: getUserIconPath(publicUserIconsURL, data.id),
     bestAsagohan: {
-      id: bestAsagohan.id,
-      imagePath: getAsagohanImagePath(publicAsagohanURL, bestAsagohan.id),
+      id: bestAsagohanID,
+      imagePath: getAsagohanImagePath(publicAsagohanURL, bestAsagohanID),
     },
     thisWeekAsagohans: thisWeekAsagohans.map((asagohan) => ({
       createdAt: formatCreatedAtDate(asagohan.created_at),
