@@ -17,6 +17,7 @@
   padding: 80px 10px;
   display: flex;
   flex-direction: column;
+  justify-content: start;
 }
 
 .userpush {
