@@ -32,7 +32,7 @@ const useUserProfile = (accountID: string) => {
 
   const updateUserName = async (newName: string) => {
     if (userProfile) {
-      const res = await fetch(`/api/user/${accountID}/name`, {
+      const res = await fetch(`/api/account/${accountID}/name`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -52,12 +52,22 @@ const useUserProfile = (accountID: string) => {
   // 画像の更新処理を追加
   const updateUserIcon = async (newIcon: File) => {
     if (userProfile) {
-      const { error } = await supabase.storage
-        .from("user_icons")
-        .update(`${userProfile.id}.png`, newIcon);
-      if (error) {
+      const userID = userProfile.id;
+      // FormDataの作成
+      const formData = new FormData();
+      formData.append("userID", userID);
+      formData.append("userIcon", newIcon);
+
+      const resIconPost = await fetch(`/api/account/${userID}/icon`, {
+        method: "PUT",
+        body: formData,
+      });
+
+      if (!resIconPost.ok) {
+        console.error("Failed to post user icon");
         throw new Error("Failed to update user icon");
       }
+
       location.reload();
     } else {
       console.error("このユーザーは存在しません");

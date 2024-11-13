@@ -18,7 +18,8 @@ export async function POST(request: Request) {
     const { error } = await supabase.storage
       .from("user_icons")
       .upload(`${userID}.png`, bytes, {
-        contentType: newIcon.type, // ファイルの MIME タイプを設定
+        contentType: newIcon.type,
+        cacheControl: "no-cache",
       });
 
     if (error) {
