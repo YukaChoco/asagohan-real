@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import supabase from "../supabase";
 
 const usePostAsagohan = (userID: string) => {
   const [sending, setSending] = useState(false);
@@ -26,10 +25,18 @@ const usePostAsagohan = (userID: string) => {
     const createdID = createdIDs[0].id; // created
     console.log(createdID); // createdIDを表示
 
-    const { error } = await supabase.storage
-      .from("asagohans")
-      .upload(`${createdID}.png`, image);
-    if (error) {
+    // FormDataの作成
+    const formData = new FormData();
+    formData.append("createdID", createdID);
+    formData.append("asagohanImage", image);
+
+    const resImagePost = await fetch(`/api/asagohan/image`, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!resImagePost.ok) {
+      console.error("Failed to post user icon");
       throw new Error("Failed to update user icon");
     }
 
