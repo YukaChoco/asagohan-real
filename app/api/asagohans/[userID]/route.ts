@@ -33,11 +33,11 @@ export async function GET(
 ) {
   const userID = params.userID;
 
-  const todayStart = new Date();
-  todayStart.setHours(0, 0, 0, 0); // 今日の開始時刻 (00:00:00)
+  const todayStartJP = new Date();
+  todayStartJP.setHours(0, 0, 0, 0); // 今日の開始時刻 (00:00:00)
 
-  const todayEnd = new Date();
-  todayEnd.setHours(11, 59, 59, 999); // 今日の終了時刻 (11:59:59)
+  const todayEndJP = new Date();
+  todayEndJP.setHours(11, 59, 59, 999); // 今日の終了時刻 (11:59:59)
 
   const { data, error } = await supabase
     .from("asagohans")
@@ -49,8 +49,8 @@ export async function GET(
       user: user_id (id, name, account_id)
       `,
     )
-    // .gte("created_at", todayStart.toISOString()) // 今日の開始時刻以降
-    // .lte("created_at", todayEnd.toISOString()) // 今日の終了時刻以前
+    .gte("created_at", todayStartJP.toISOString()) // 今日の開始時刻以降
+    .lte("created_at", todayEndJP.toISOString()) // 今日の終了時刻以前
     .returns<AsagohanResponse[]>();
 
   if (error) {

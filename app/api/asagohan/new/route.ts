@@ -6,6 +6,7 @@ export async function POST(request: Request) {
   const { data, error } = await supabase
     .from("asagohans")
     .insert({
+      created_at: new Date(),
       user_id: userID,
       title: title,
     })

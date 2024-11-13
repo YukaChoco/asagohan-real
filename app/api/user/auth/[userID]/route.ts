@@ -10,7 +10,6 @@ export async function GET(
   { params }: { params: { userID: string } },
 ) {
   const userID = params.userID;
-  console.log("Requested userID:", userID); // ログ出力
 
   const { data, error } = await supabase
     .from("users")

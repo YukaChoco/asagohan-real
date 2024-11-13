@@ -40,7 +40,7 @@ const usePostAsagohan = (userID: string) => {
       throw new Error("Failed to update user icon");
     }
 
-    setSending(false);
+    window.location.href = "/";
   };
 
   return { postAsagohan, asagohanSending: sending };

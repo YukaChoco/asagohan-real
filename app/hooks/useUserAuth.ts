@@ -11,6 +11,7 @@ const useUserAuth = () => {
   const fetchAccountID = async (loginUserID: string) => {
     try {
       const res = await fetch(`/api/user/auth/${loginUserID}`);
+      console.log("res", res);
       if (!res.ok) {
         setAccountID(null);
         throw new Error("Failed to fetch data");
