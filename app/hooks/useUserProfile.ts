@@ -8,7 +8,7 @@ const useUserProfile = (accountID: string) => {
   const [fetching, setFetching] = useState(true);
 
   const getUserProfile = async (accountID: string): Promise<UserProfile> => {
-    const res = await fetch(`/api/user/${accountID}`);
+    const res = await fetch(`/api/account/${accountID}`);
     if (!res.ok) {
       throw new Error("Failed to fetch data");
     }
@@ -52,12 +52,9 @@ const useUserProfile = (accountID: string) => {
   // 画像の更新処理を追加
   const updateUserIcon = async (newIcon: File) => {
     if (userProfile) {
-      const removeHyphen = (id: string) => id.replace(/-/g, "");
-
-      console.log(`${removeHyphen(userProfile.id)}.png`);
       const { error } = await supabase.storage
         .from("user_icons")
-        .update(`${removeHyphen(userProfile.id)}.png`, newIcon);
+        .update(`${userProfile.id}.png`, newIcon);
       if (error) {
         throw new Error("Failed to update user icon");
       }

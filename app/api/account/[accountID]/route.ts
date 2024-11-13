@@ -1,5 +1,8 @@
 import supabase from "@/app/supabase";
 import type { UserProfile } from "@/app/types/User";
+import getAsagohanImagePath from "@/app/utils/getAsagohanImagePath";
+import getPublicBucketURL from "@/app/utils/getPublicUserIconURL";
+import getUserIconPath from "@/app/utils/getUserIconPath";
 
 interface UserResponse {
   id: string;
@@ -73,34 +76,26 @@ export async function GET(
     { id: "0", likes: 0 },
   );
 
-  const publicAsagohanURLresponseData = await supabase.storage
-    .from("asagohans")
-    .getPublicUrl("");
-  const publicUserIconURLresponseData = await supabase.storage
-    .from("user_icons")
-    .getPublicUrl("");
-  const publicAsagohanURL = publicAsagohanURLresponseData.data.publicUrl || "";
-  const publicUserIconURL = publicUserIconURLresponseData.data.publicUrl || "";
+  const publicAsagohanURL = await getPublicBucketURL("asagohans");
+  const publicUserIconsURL = await getPublicBucketURL("user_icons");
 
   const formatCreatedAtDate = (dateString: string) => {
     const date = new Date(dateString);
     return `${date.getMonth() + 1}月${date.getDate()}日`;
   };
 
-  const removeHyphen = (id: string) => id.replace(/-/g, "");
-
   const user: UserProfile = {
     id: data.id,
     name: data.name,
     accountID: data.account_id,
-    userIconPath: `${publicUserIconURL}${removeHyphen(data.id)}.png`,
+    userIconPath: getUserIconPath(publicUserIconsURL, data.id),
     bestAsagohan: {
       id: bestAsagohan.id,
-      imagePath: `${publicAsagohanURL}${bestAsagohan.id}.png`,
+      imagePath: getAsagohanImagePath(publicAsagohanURL, bestAsagohan.id),
     },
     thisWeekAsagohans: thisWeekAsagohans.map((asagohan) => ({
       createdAt: formatCreatedAtDate(asagohan.created_at),
-      imagePath: `${publicAsagohanURL}${asagohan.id}.png`,
+      imagePath: getAsagohanImagePath(publicAsagohanURL, asagohan.id),
     })),
   };
   return Response.json({ data: user });

@@ -21,6 +21,7 @@ export default function Home() {
   const { userID, accountID, authLoading } = useUserAuth();
   const { asagohans, todayAsagohansFetching, onClickLike } = useTodayAsagohans(
     userID || "",
+    authLoading,
   );
   const [selectedAsagohan, setSelectedAsagohan] = useState<Asagohan | null>(
     null,

@@ -1,9 +1,9 @@
 "use client";
 import { useState, ChangeEvent, FormEvent } from "react";
 import styles from "./page.module.css";
-import supabase from "../supabase";
 import { Button } from "@mui/material";
-import Loading from "../components/Loading";
+import Loading from "@/app/components/Loading";
+import signIn from "@/app/signIn";
 
 export default function Home() {
   const [email, setEmail] = useState<string>("");
@@ -33,18 +33,17 @@ export default function Home() {
       return;
     }
 
-    // Supabaseでサインイン
-    const { error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
+    // Firebase Authentication でログイン
+    const { errorMessage } = await signIn(email, password);
 
-    if (error) {
-      setErrorMessage("ログインに失敗しました: " + error.message);
+    if (errorMessage) {
+      console.log("ログイン失敗: " + errorMessage);
+      setErrorMessage("ログインに失敗しました: " + errorMessage);
       setSuccessMessage(""); // 成功メッセージはクリア
     } else {
+      console.log("ログイン成功");
       setErrorMessage(""); // エラーメッセージはクリア
-      window.history.back();
+      window.location.href = "/";
     }
     setLoading(false);
   };
