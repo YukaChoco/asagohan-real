@@ -32,6 +32,7 @@ export async function GET(
   { params }: { params: { userID: string } },
 ) {
   const userID = params.userID;
+
   const todayStart = new Date();
   todayStart.setHours(0, 0, 0, 0); // 今日の開始時刻 (00:00:00)
 
@@ -40,25 +41,25 @@ export async function GET(
 
   const { data, error } = await supabase
     .from("asagohans")
-    .select(`*`)
-    .gte("created_at", todayStart.toISOString()) // 今日の開始時刻以降
-    .lte("created_at", todayEnd.toISOString()) // 今日の終了時刻以前
+    .select(
+      `
+      *,
+      likes (user_id),
+      comments: comments (created_at, content, user: user_id (id, name, account_id)),
+      user: user_id (id, name, account_id)
+      `,
+    )
+    // .gte("created_at", todayStart.toISOString()) // 今日の開始時刻以降
+    // .lte("created_at", todayEnd.toISOString()) // 今日の終了時刻以前
     .returns<AsagohanResponse[]>();
-
-  console.log(
-    "data:",
-    data ? (data.length === 0 ? "data is 0 length" : data[0]) : "no data",
-  );
 
   if (error) {
     return new Response(`Internal Server Error: ${error.message}`, {
       status: 500,
     });
   }
-  if (!data) {
-    return new Response("Not Found", {
-      status: 404,
-    });
+  if (!data || data.length === 0) {
+    return new Response("No data found", { status: 404 });
   }
 
   const publicAsagohanURL = await getPublicBucketURL("asagohans");
@@ -69,54 +70,51 @@ export async function GET(
     return `${date.getHours()}時${date.getMinutes()}分`;
   };
 
-  // いいね数でソート
-  const sortedData = data.sort((a, b) => b.likes.length - a.likes.length);
+  // いいね数でソートし、ランキングを付ける
+  const rankedData = data
+    .sort(
+      (a, b) => (b.likes ? b.likes.length : 0) - (a.likes ? a.likes.length : 0),
+    )
+    .map((asagohan, index) => ({
+      ...asagohan,
+      ranking: index < 3 ? index + 1 : null,
+    }));
 
-  // ランキングを付ける
-  const rankedData = sortedData.map((asagohan, index) => {
-    if (index < 3) {
-      return { ...asagohan, ranking: index + 1 };
-    } else {
-      return { ...asagohan, ranking: null };
-    }
-  });
-
-  const asagohans: Asagohan[] = data.map((asagohan) => ({
+  const asagohans: Asagohan[] = rankedData.map((asagohan) => ({
     id: asagohan.id,
     createdAt: formatCreatedAtDate(asagohan.created_at),
     title: asagohan.title,
     imagePath: getAsagohanImagePath(publicAsagohanURL, asagohan.id),
-    likes: asagohan.likes.length,
-    isLiked: asagohan.likes.some((like) => like.user_id === userID),
-    comments: asagohan.comments.map((comment) => ({
-      content: comment.content,
-      createdAt: formatCreatedAtDate(comment.created_at),
-      user: {
-        id: comment.user.id,
-        name: comment.user.name,
-        accountID: comment.user.account_id,
-        userIconPath: getUserIconPath(publicUserIconsURL, comment.user.id),
-      },
-    })),
+    likes: asagohan.likes ? asagohan.likes.length : 0,
+    isLiked: asagohan.likes
+      ? asagohan.likes.some((like) => like.user_id === userID)
+      : false,
+    comments: asagohan.comments
+      ? asagohan.comments.map((comment) => ({
+          content: comment.content,
+          createdAt: formatCreatedAtDate(comment.created_at),
+          user: {
+            id: comment.user.id,
+            name: comment.user.name,
+            accountID: comment.user.account_id,
+            userIconPath: getUserIconPath(publicUserIconsURL, comment.user.id),
+          },
+        }))
+      : [],
     user: {
       id: asagohan.user.id,
       name: asagohan.user.name,
       accountID: asagohan.user.account_id,
       userIconPath: getUserIconPath(publicUserIconsURL, asagohan.user.id),
     },
-    ranking:
-      rankedData.find((ranked) => ranked.id === asagohan.id)?.ranking || null,
+    ranking: asagohan.ranking,
   }));
 
-  asagohans.sort((a, b) => {
-    if (a.createdAt < b.createdAt) {
-      return -1;
-    }
-    if (a.createdAt > b.createdAt) {
-      return 1;
-    }
-    return 0;
-  });
+  // 作成日時でソート
+  asagohans.sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1));
 
-  return Response.json({ data: asagohans });
+  return new Response(JSON.stringify({ data: asagohans }), {
+    headers: { "Content-Type": "application/json" },
+    status: 200,
+  });
 }
