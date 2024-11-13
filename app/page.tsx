@@ -16,6 +16,7 @@ import Asagohan from "./types/Asagohan";
 import useUserAuth from "./hooks/useUserAuth";
 import { useState } from "react";
 import Loading from "./components/Loading";
+import sendComment from "./utils/sendComment";
 
 export default function Home() {
   const { userID, accountID, authLoading } = useUserAuth();
@@ -87,7 +88,7 @@ export default function Home() {
   }
 
   const handleClick = (asagohan: Asagohan) => {
-    onClickLike(asagohan);
+    sendComment("eSMT0JSxdwQRHRPShoMkagO858f1", "72", "おいしいね");
   };
 
   const drawerIsOpen = selectedAsagohan !== null;
