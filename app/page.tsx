@@ -81,7 +81,7 @@ export default function Home() {
             </Link>
           </div>
         </Header>
-        <main>誰もまだ朝ごはんを投稿していません</main>
+        <main style={{ justifyContent:"center" }}>誰もまだ朝ごはんを投稿していません</main>
       </div>
     );
   }
