@@ -2,10 +2,9 @@
 import { useEffect, useState } from "react";
 import type Asagohan from "@/app/types/Asagohan";
 
-const useTodayAsagohans = (userID: string, authLoading: boolean) => {
+const useTodayAsagohans = (userID: string | null, authLoading: boolean) => {
   const [asagohans, setAsagohans] = useState<Asagohan[] | null>(null);
   const [fetching, setFetching] = useState(false);
-  console.log("asagohans:", asagohans);
 
   const getTodayAsagohans = async (userID: string): Promise<Asagohan[]> => {
     console.log("fetching asagohans...");
@@ -21,6 +20,11 @@ const useTodayAsagohans = (userID: string, authLoading: boolean) => {
 
   useEffect(() => {
     if (authLoading) {
+      return;
+    }
+    if (!userID) {
+      setAsagohans(null);
+      setFetching(false);
       return;
     }
     setFetching(true);
