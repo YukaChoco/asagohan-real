@@ -15,6 +15,7 @@ import { Button, IconButton, Modal, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 import useUserAuth from "@/app/hooks/useUserAuth";
 import Loading from "@/app/components/Loading";
+import { Margin } from "@mui/icons-material";
 
 // SmallAvatar の定義
 const SmallAvatar = (
@@ -207,12 +208,11 @@ export default function Home({ params }: { params: { accountID: string } }) {
             }
           >
             <Image
-              className={styles.userIcon}
               src={userProfile.userIconPath}
               alt={"ユーザのアイコン画像"}
               width={200}
               height={200}
-              style={{ borderRadius: "50%" }}
+              style={{ borderRadius: "50%", marginTop: "20px"}}
             />
           </Badge>
         </div>
@@ -241,10 +241,11 @@ export default function Home({ params }: { params: { accountID: string } }) {
 
         <div className={styles.profile1}>
           <Image
+            className={styles.post}
             src={userProfile.bestAsagohan.imagePath}
             alt={"AsagohanPicture"}
-            height={100}
-            width={150}
+            width={252}
+            height={182}
           />
         </div>
       </div>
@@ -264,12 +265,15 @@ export default function Home({ params }: { params: { accountID: string } }) {
           <div className={styles.scroll}>
             {userProfile.thisWeekAsagohans.map((thisWeekAsagohan, index) => (
               <div key={index} className={styles.profile2}>
-                <Image
-                  src={thisWeekAsagohan.imagePath}
-                  alt={"WeeklyAsagohan"}
-                  height={100}
-                  width={150}
-                />
+                <div className={styles.flame1}>
+                  <Image
+                    className={styles.flame2}
+                    src={thisWeekAsagohan.imagePath}
+                    alt={"WeeklyAsagohan"}
+                    height={150}
+                    width={166}
+                  />
+                </div>
                 <div className={styles.date}>{thisWeekAsagohan.createdAt}</div>
               </div>
             ))}

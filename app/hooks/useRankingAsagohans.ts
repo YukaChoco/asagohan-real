@@ -14,6 +14,18 @@ const mockAsagohans:RankingAsagohan[] = [
       userIconPath: "/default_icon.svg"
     },
     ranking: 1,
+  },
+  {
+    title:"test title2",
+    imagePath: "/breakfast_image.png",
+    likes:4,
+    user: {
+      id: "test user",
+      name: "test name",
+      accountID: "test account",
+      userIconPath: "/default_icon.svg"
+    },
+    ranking: 2,
   }
 
 ]
