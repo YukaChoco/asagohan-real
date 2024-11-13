@@ -51,7 +51,7 @@ export async function GET(
 
   const thisWeekAsagohans = Array.from({ length: 7 }, (_, i) => {
     const date = new Date();
-    date.setDate(date.getDate() + i - 7);
+    date.setDate(date.getDate() + i - 6);
     const targetAsagohan = asagohans.find(
       (asagohan) => new Date(asagohan.created_at).getDate() === date.getDate(),
     );
