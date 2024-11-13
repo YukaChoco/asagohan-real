@@ -53,17 +53,7 @@ const useUserAuth = () => {
     checkUserAuth();
   }, []);
 
-  useEffect(() => {
-    if (!loading) {
-      if (isAuthenticated) {
-        console.log("Authenticated");
-      } else {
-        window.location.href = "/login";
-      }
-    }
-  }, [isAuthenticated, loading]);
-
-  return { userID, accountID, authLoading: loading };
+  return { userID, accountID, authLoading: loading, isAuthenticated };
 };
 
 export default useUserAuth;

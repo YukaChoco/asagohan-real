@@ -4,25 +4,10 @@ import { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import React from "react";
-import usePostAsagohan from "../hooks/usePostAsagohan";
-import useUserAuth from "../hooks/useUserAuth";
-import Loading from "../components/Loading";
-import Header from "@/app/components/Header";
-import Link from "next/link";
-
-const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-  color: "var(--primary)",
-  zIndex: 1300, // Ensure the modal is on top
-};
+import usePostAsagohan from "@/app/hooks/usePostAsagohan";
+import useUserAuth from "@/app/hooks/useUserAuth";
+import Loading from "@/app/components/Loading";
+import NoAuthenticatedModal from "@/app/components/NoAuthenticatedModal";
 
 export default function Home() {
   const { userID } = useUserAuth();
@@ -31,6 +16,20 @@ export default function Home() {
   const [open, setOpen] = useState(false);
   const [newName, setNewName] = useState<string>("");
   const { postAsagohan, asagohanSending } = usePostAsagohan(userID || "");
+
+  const modalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+    color: "var(--primary)",
+    zIndex: 1300, // Ensure the modal is on top
+  };
 
   // Handle image upload and open modal after the image is loaded
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -70,7 +69,15 @@ export default function Home() {
   };
 
   if (!userID) {
-    return <main>ログインしてください</main>;
+    return (
+      <>
+        <NoAuthenticatedModal />
+
+        <main className={styles.main}>
+          <p>ログインしないと撮影できません</p>
+        </main>
+      </>
+    );
   }
 
   if (asagohanSending) {
@@ -79,6 +86,8 @@ export default function Home() {
 
   return (
     <>
+      <NoAuthenticatedModal />
+
       <main className={styles.main}>
         <h1
           className={styles.h1}

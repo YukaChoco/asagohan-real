@@ -4,9 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import Header from "@/app/components/Header";
 import { Avatar } from "@mui/material";
-import useRankingAsagohans from "../hooks/useRankingAsagohans";
-import useUserAuth from "../hooks/useUserAuth";
-import Loading from "../components/Loading";
+import useRankingAsagohans from "@/app/hooks/useRankingAsagohans";
+import useUserAuth from "@/app/hooks/useUserAuth";
+import Loading from "@/app/components/Loading";
+import NoAuthenticatedModal from "@/app/components/NoAuthenticatedModal";
 
 export default function Home() {
   const { authLoading } = useUserAuth();
@@ -41,6 +42,8 @@ export default function Home() {
         <h1 className={styles.h1}>ランキング！</h1>
         <div></div>
       </Header>
+
+      <NoAuthenticatedModal />
 
       <main className={styles.main}>
         {asagohans.map((asagohan, index) => {

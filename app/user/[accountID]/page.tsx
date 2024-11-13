@@ -15,6 +15,7 @@ import { Button, IconButton, Modal, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 import useUserAuth from "@/app/hooks/useUserAuth";
 import Loading from "@/app/components/Loading";
+import NoAuthenticatedModal from "@/app/components/NoAuthenticatedModal";
 
 // SmallAvatar の定義
 const SmallAvatar = (
@@ -112,6 +113,8 @@ export default function Home({ params }: { params: { accountID: string } }) {
         <h1 className={styles.h1}>ユーザプロフィール</h1>
         <div></div>
       </Header>
+
+      <NoAuthenticatedModal />
 
       <Modal
         open={isEditingName}

@@ -16,11 +16,12 @@ import Asagohan from "./types/Asagohan";
 import useUserAuth from "./hooks/useUserAuth";
 import { useState } from "react";
 import Loading from "./components/Loading";
+import NoAuthenticatedModal from "./components/NoAuthenticatedModal";
 
 export default function Home() {
   const { userID, accountID, authLoading } = useUserAuth();
   const { asagohans, todayAsagohansFetching, onClickLike } = useTodayAsagohans(
-    userID || "",
+    userID,
     authLoading,
   );
   const [selectedAsagohan, setSelectedAsagohan] = useState<Asagohan | null>(
@@ -82,6 +83,7 @@ export default function Home() {
             </Link>
           </div>
         </Header>
+        <NoAuthenticatedModal />
         <main className={styles.notAsagohan}>
           誰もまだ朝ごはんを投稿していません
         </main>
