@@ -149,6 +149,7 @@ export default function Home() {
       </Header>
       <main className={styles.main}>
         <Drawer
+        sx={{width:"100dvw"}}
           anchor="bottom"
           open={drawerIsOpen}
           onClose={() => setSelectedAsagohan(null)}
@@ -195,45 +196,27 @@ export default function Home() {
               <div className={styles.usercomment}></div>
             )}
             <div className={styles.commentpush}>
-              <Box
-                component="form"
-                sx={{
-                  "& .MuiTextField-root": { m: 1, width: "25ch" },
-                }}
-                noValidate
-                autoComplete="off"
-              />
-              <TextField
-                label="コメントを入力..."
-                id="outlined-size-small"
-                fullWidth
-                sx={{
-                  // 入力値にフォントを適用
-                  "& .MuiOutlinedInput-root": { fontFamily: "var(--font)" },
-                  "& input": {
-                    color: "var(--primary)",
-                  },
-                  "& label": {
-                    fontFamily: "var(--font)",
-                  },
-                  position: "fixed",
-                  bottom: "20px",
-                }}
-              />
-              <Stack direction="row" spacing={2}>
+              <Stack direction="row" spacing={2} sx={{ width: "100%" ,maxWidth: "100%"}}>
+                <TextField
+                  label="コメントを入力..."
+                  variant="outlined"
+                  fullWidth
+                  sx={{
+                    "& .MuiOutlinedInput-root": { fontFamily: "var(--font)" },
+                    "& input": { color: "var(--primary)" },
+                    "& label": { fontFamily: "var(--font)" },
+                  }}
+                />
                 <Button
                   variant="contained"
                   endIcon={<SendIcon />}
-                  sx={{
-                    position: "fixed",
-                    right: "30px",
-                    bottom: "20px",
-                  }}
+                  sx={{ backgroundColor: "#5a2d0c", color: "white" }}
                 >
                   Send
                 </Button>
               </Stack>
             </div>
+
           </div>
         </Drawer>
         {asagohans?.map((asagohan, index) => {
