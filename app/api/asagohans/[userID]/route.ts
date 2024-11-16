@@ -4,6 +4,7 @@ import type Asagohan from "@/app/types/Asagohan";
 import getAsagohanImagePath from "@/app/utils/getAsagohanImagePath";
 import getPublicBucketURL from "@/app/utils/getPublicUserIconURL";
 import getUserIconPath from "@/app/utils/getUserIconPath";
+import formatCreatedAtDate from "@/app/utils/formatCreatedAtDate";
 
 interface AsagohanResponse {
   id: string;
@@ -67,11 +68,6 @@ export async function GET(
 
   const publicAsagohanURL = await getPublicBucketURL("asagohans");
   const publicUserIconsURL = await getPublicBucketURL("user_icons");
-
-  const formatCreatedAtDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return `${date.getHours()}時${date.getMinutes()}分`;
-  };
 
   // いいね数でソートし、ランキングを付ける
   const rankedData = data
