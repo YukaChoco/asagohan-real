@@ -39,9 +39,11 @@ export async function GET(
   date.setHours(date.getHours() + 9);
   const todayStartJP = date;
   todayStartJP.setHours(0, 0, 0, 0); // 今日の開始時刻 (00:00:00)
+  console.log(todayStartJP);
 
   const todayEndJP = date;
   todayEndJP.setHours(11, 59, 59, 999); // 今日の終了時刻 (11:59:59)
+  console.log(todayEndJP);
 
   const { data, error } = await supabase
     .from("asagohans")
