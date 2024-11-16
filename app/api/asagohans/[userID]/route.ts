@@ -1,4 +1,5 @@
 import supabase from "@/app/supabase";
+import { toZonedTime } from "date-fns-tz";
 import type Asagohan from "@/app/types/Asagohan";
 import getAsagohanImagePath from "@/app/utils/getAsagohanImagePath";
 import getPublicBucketURL from "@/app/utils/getPublicUserIconURL";
@@ -28,13 +29,12 @@ interface AsagohanResponse {
 }
 
 export async function GET(
-  request: Request,
+  _: Request,
   { params }: { params: { userID: string } },
 ) {
   const userID = params.userID;
-  const { dateString } = await request.json();
 
-  const date = new Date(dateString);
+  const date = toZonedTime(new Date(), "Asia/Tokyo");
   const todayStartJP = date;
   todayStartJP.setHours(0, 0, 0, 0); // 今日の開始時刻 (00:00:00)
 

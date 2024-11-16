@@ -1,4 +1,5 @@
 import supabase from "@/app/supabase";
+import { toZonedTime } from "date-fns-tz";
 import type { UserProfile } from "@/app/types/User";
 import getAsagohanImagePath from "@/app/utils/getAsagohanImagePath";
 import getPublicBucketURL from "@/app/utils/getPublicUserIconURL";
@@ -18,11 +19,10 @@ interface UserResponse {
 }
 
 export async function GET(
-  request: Request,
+  _: Request,
   { params }: { params: { accountID: string } },
 ) {
   const accountID = params.accountID;
-  const { dateString } = await request.json();
 
   const { data, error } = await supabase
     .from("users")
@@ -51,7 +51,7 @@ export async function GET(
   const asagohans = data.asagohans;
 
   const thisWeekAsagohans = Array.from({ length: 7 }, (_, i) => {
-    const date = new Date(dateString);
+    const date = toZonedTime(new Date(), "Asia/Tokyo");
 
     date.setDate(date.getDate() + i - 6);
     const targetAsagohan = asagohans.find(

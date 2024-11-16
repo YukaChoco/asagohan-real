@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { toZonedTime } from "date-fns-tz";
 import { MORNING_POST_END, MORNING_POST_START } from "@/app/const";
 
 const usePostAsagohan = (userID: string | null) => {
@@ -22,7 +23,6 @@ const usePostAsagohan = (userID: string | null) => {
       body: JSON.stringify({
         title,
         userID,
-        dateString: new Date().toISOString(),
       }),
     });
 
@@ -54,17 +54,8 @@ const usePostAsagohan = (userID: string | null) => {
   };
 
   useEffect(() => {
-    // TODO:
-    // , {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ date: new Date() }),
-    // });
-
     // MORNING_POST_START時からMORNING_POST_END時までしか朝ごはんを登録できない
-    const nowDate = new Date();
+    const nowDate = toZonedTime(new Date(), "Asia/Tokyo");
     if (
       nowDate.getHours() < MORNING_POST_START ||
       nowDate.getHours() >= MORNING_POST_END

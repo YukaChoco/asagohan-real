@@ -1,13 +1,14 @@
 import supabase from "@/app/supabase";
+import { toZonedTime } from "date-fns-tz";
 
 interface AsagohanResponse {
   id: string;
 }
 
 export async function POST(request: Request) {
-  const { userID, dateString } = await request.json();
+  const { userID } = await request.json();
 
-  const date = new Date(dateString);
+  const date = toZonedTime(new Date(), "Asia/Tokyo");
   const todayStartJP = date;
   todayStartJP.setHours(0, 0, 0, 0); // 今日の開始時刻 (00:00:00)
 
