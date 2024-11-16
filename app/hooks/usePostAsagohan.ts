@@ -1,14 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
 import { toZonedTime } from "date-fns-tz";
+import { useRouter } from "next/navigation";
 import { MORNING_POST_END, MORNING_POST_START } from "@/app/const";
 
 const usePostAsagohan = (userID: string | null) => {
+  const router = useRouter();
   const [sending, setSending] = useState<boolean>(false);
   const [canSend, setCanSend] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const postAsagohan = async (title: string, image: File) => {
     if (!userID) {
+      setError("ログインしていないユーザが投稿を行おうとしました");
       throw new Error("ログインしていないユーザが投稿を行おうとしました");
     }
 
@@ -24,13 +28,23 @@ const usePostAsagohan = (userID: string | null) => {
       }),
     });
 
-    console.log(res);
     if (!res.ok) {
-      console.error("Failed to post asagohan");
+      const responseData = await res.json(); // JSONレスポンスを取得
+      setError(responseData.error || res.statusText); // エラーメッセージをセット
+      setSending(false);
+      return;
     }
+
     const responseData = await res.json();
 
     const { createdIDs } = responseData; // createdIDを取り出す
+
+    if (!createdIDs) {
+      setError("createdIDが取得できませんでした");
+      setSending(false);
+      return;
+    }
+
     const createdID = createdIDs[0].id; // created
 
     // FormDataの作成
@@ -44,14 +58,27 @@ const usePostAsagohan = (userID: string | null) => {
     });
 
     if (!resImagePost.ok) {
-      console.error("Failed to post user icon");
-      throw new Error("Failed to update user icon");
+      const responseData = await resImagePost.json(); // JSONレスポンスを取得
+      setError(responseData.error || resImagePost.statusText); // エラーメッセージをセット
+      setSending(false);
+      return;
     }
 
-    window.location.href = "/";
+    router.push("/");
+  };
+
+  const retryPostAsagohan = async (title: string, image: File) => {
+    setSending(true);
+    setError(null);
+    await postAsagohan(title, image);
   };
 
   useEffect(() => {
+    if (!userID) {
+      return;
+    }
+    setSending(true);
+
     // MORNING_POST_START時からMORNING_POST_END時までしか朝ごはんを登録できない
     const nowDate = toZonedTime(new Date(), "Asia/Tokyo");
     if (
@@ -62,10 +89,37 @@ const usePostAsagohan = (userID: string | null) => {
         `朝ごはんは${MORNING_POST_START}時から${MORNING_POST_END}時までしか登録できません。`,
       );
     }
-    //
+
+    // 1日1回しか投稿できない
+    const fetchAsagohans = async () => {
+      const canSendResponse = await fetch(`/api/asagohan/canSend`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userID }),
+      });
+      console.log(canSendResponse);
+      if (!canSendResponse.ok) {
+        const responseData = await canSendResponse.json(); // JSONレスポンスを取得
+        setCanSend(responseData.error || canSendResponse.statusText); // エラーメッセージをセット
+        setSending(false);
+        return;
+      }
+
+      setSending(false);
+    };
+
+    fetchAsagohans();
   }, [userID]);
 
-  return { postAsagohan, asagohanSending: sending, canSend };
+  return {
+    postAsagohan,
+    asagohanSending: sending,
+    canSend,
+    error,
+    retryPostAsagohan,
+  };
 };
 
 export default usePostAsagohan;

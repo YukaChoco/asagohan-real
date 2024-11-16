@@ -2,7 +2,8 @@
 import styles from "./page.module.css";
 import { ChangeEvent, useState } from "react";
 import Image from "next/image";
-import { Box, Button, Modal, TextField, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
+import { Box, Button, Modal, TextField } from "@mui/material";
 import React from "react";
 import usePostAsagohan from "@/app/hooks/usePostAsagohan";
 import useUserAuth from "@/app/hooks/useUserAuth";
@@ -10,12 +11,14 @@ import Loading from "@/app/components/Loading";
 import NoAuthenticatedModal from "@/app/components/NoAuthenticatedModal";
 
 export default function Home() {
+  const router = useRouter();
   const { userID, authLoading } = useUserAuth();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [inputFile, setInputFile] = useState<File | null>(null);
   const [open, setOpen] = useState(false);
   const [newName, setNewName] = useState<string>("");
-  const { postAsagohan, asagohanSending, canSend } = usePostAsagohan(userID);
+  const { postAsagohan, asagohanSending, canSend, error, retryPostAsagohan } =
+    usePostAsagohan(userID);
 
   const modalStyle = {
     position: "absolute",
@@ -62,7 +65,18 @@ export default function Home() {
     if (inputFile) {
       await postAsagohan(newName, inputFile); // Post }the new name and the image
       //   homeへ
-      window.location.href = "/";
+      router.push("/");
+    } else {
+      console.error("画像が選択されていません");
+    }
+  };
+
+  const handleRetry = async () => {
+    setOpen(false); // Close the modal
+    if (inputFile) {
+      await retryPostAsagohan(newName, inputFile); // Post }the new name and the image
+      //   homeへ
+      router.push("/");
     } else {
       console.error("画像が選択されていません");
     }
@@ -79,6 +93,35 @@ export default function Home() {
 
         <main className={styles.main}>
           <p>ログインしないと撮影できません</p>
+        </main>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <NoAuthenticatedModal />
+
+        <main className={styles.main}>
+          <p>{error}</p>
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={() => handleRetry()}
+            sx={{
+              width: "80%",
+              height: "fit-content",
+              marginBottom: "40px",
+              marginTop: "20px",
+              backgroundColor: "var(--light)",
+              color: "var(--primary)",
+              fontFamily: "var(--font)",
+            }}
+            role="link"
+          >
+            もう一度投稿する
+          </Button>
         </main>
       </>
     );
@@ -126,7 +169,7 @@ export default function Home() {
         <h1
           className={styles.h1}
           onClick={() => {
-            window.location.href = "/";
+            router.push("/");
           }}
         >
           起きろ!

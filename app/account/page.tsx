@@ -1,12 +1,12 @@
 "use client";
-import { useState, useEffect, ChangeEvent, FormEvent, use } from "react";
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import Avatar from "@mui/material/Avatar";
 import { Badge, Button } from "@mui/material";
 import usePostUser from "@/app/hooks/usePostUser";
 import Loading from "@/app/components/Loading";
 import signUp from "@/app/signUp";
-import supabase from "../supabase";
 
 interface SmallAvatarProps {
   alt: string;
@@ -21,6 +21,7 @@ const SmallAvatar: React.FC<SmallAvatarProps> = (props) => (
 );
 
 export default function Home() {
+  const router = useRouter();
   const [accountID, setAccountID] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -92,7 +93,7 @@ export default function Home() {
       if (userID && selectedImageFile) {
         await postUser(userID, username, accountID, selectedImageFile);
         setLoading(false);
-        window.location.href = "/";
+        router.push("/");
       }
 
       // サインアップが成功した場合、ユーザー情報をデータベースに保存

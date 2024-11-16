@@ -1,5 +1,6 @@
 "use client";
 import styles from "./page.module.css";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "./components/Header";
@@ -20,6 +21,7 @@ import NoAuthenticatedModal from "./components/NoAuthenticatedModal";
 import sendComment from "./utils/sendComment";
 
 export default function Home() {
+  const router = useRouter();
   const { userID, accountID, authLoading } = useUserAuth();
   const { asagohans, todayAsagohansFetching, onClickLike } = useTodayAsagohans(
     userID,
@@ -39,10 +41,7 @@ export default function Home() {
     return (
       <div className={styles.page}>
         <Header>
-          <div
-            className={styles.first}
-            onClick={() => window.location.reload()}
-          >
+          <div className={styles.first} onClick={() => router.refresh()}>
             <Image
               className={styles.aikon}
               src="ロゴアイコン.svg"
@@ -50,7 +49,7 @@ export default function Home() {
               width={60}
               height={60}
             />
-            <h1 className={styles.h1} onClick={() => window.location.reload()}>
+            <h1 className={styles.h1} onClick={() => router.refresh()}>
               起きろ!
               <br />
               朝ごはんReal.
@@ -114,7 +113,7 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <Header>
-        <div className={styles.first} onClick={() => window.location.reload()}>
+        <div className={styles.first} onClick={() => router.refresh()}>
           <Image
             className={styles.aikon}
             src="ロゴアイコン.svg"
@@ -122,7 +121,7 @@ export default function Home() {
             width={60}
             height={60}
           />
-          <h1 className={styles.h1} onClick={() => window.location.reload()}>
+          <h1 className={styles.h1} onClick={() => router.refresh()}>
             起きろ!
             <br />
             朝ごはんReal.
