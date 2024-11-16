@@ -9,7 +9,6 @@ import { Avatar } from "@mui/material";
 import * as React from "react";
 import Drawer from "@mui/material/Drawer";
 import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
 import SendIcon from "@mui/icons-material/Send";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";

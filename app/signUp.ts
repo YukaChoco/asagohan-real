@@ -33,7 +33,6 @@ const signUp = async (
       errorMessage: null,
     };
   } catch (error) {
-    const errorCode = (error as { code: string }).code;
     const errorMessage = (error as { message: string }).message;
     return { userID: "", errorMessage: errorMessage };
   }
