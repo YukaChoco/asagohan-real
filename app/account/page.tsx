@@ -1,11 +1,12 @@
 "use client";
-import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { useState, useEffect, ChangeEvent, FormEvent, use } from "react";
 import styles from "./page.module.css";
 import Avatar from "@mui/material/Avatar";
 import { Badge, Button } from "@mui/material";
+import usePostUser from "@/app/hooks/usePostUser";
+import Loading from "@/app/components/Loading";
+import signUp from "@/app/signUp";
 import supabase from "../supabase";
-import usePostUser from "../hooks/usePostUser";
-import Loading from "../components/Loading";
 
 interface SmallAvatarProps {
   alt: string;
@@ -71,34 +72,30 @@ export default function Home() {
     }
 
     try {
-      const { data: signUpData, error: signUpError } =
-        await supabase.auth.signUp({
-          email,
-          password,
-        });
+      const signUpResult = await signUp(email, password);
 
-      if (signUpError) {
-        setErrorMessage(`サインアップに失敗しました: ${signUpError.message}`);
+      if (signUpResult.errorMessage) {
+        setErrorMessage(
+          `サインアップに失敗しました: ${signUpResult.errorMessage}`,
+        );
         return;
       }
 
-      // サインアップが成功した場合、ユーザー情報をデータベースに保存
-      const user = signUpData.user;
-      const userID = user?.id;
+      const userID = signUpResult.userID;
+
       if (!userID) {
         setErrorMessage("ユーザーIDが取得できませんでした");
         return;
       }
-      console.log(userID);
 
+      // ユーザー情報をデータベースに保存
       if (userID && selectedImageFile) {
         await postUser(userID, username, accountID, selectedImageFile);
         setLoading(false);
-        console.log("postUser");
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 1000);
+        window.location.href = "/";
       }
+
+      // サインアップが成功した場合、ユーザー情報をデータベースに保存
     } catch (error) {
       setErrorMessage(`登録中にエラーが発生しました: ${error}`);
     } finally {

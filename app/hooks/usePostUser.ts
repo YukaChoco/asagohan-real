@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import supabase from "../supabase";
 
 const usePostUser = () => {
   const [sending, setSending] = useState(false);
@@ -12,7 +11,8 @@ const usePostUser = () => {
     userIcon: File,
   ) => {
     setSending(true);
-    const res = await fetch(`/api/user/new`, {
+
+    const resUserPost = await fetch(`/api/user/new`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -20,17 +20,22 @@ const usePostUser = () => {
       body: JSON.stringify({ userID, name, accountID }),
     });
 
-    if (!res.ok) {
+    if (!resUserPost.ok) {
       console.error("Failed to post user");
     }
 
-    const removeHyphen = (id: string) => id.replace(/-/g, "");
+    // FormDataの作成
+    const formData = new FormData();
+    formData.append("userID", userID);
+    formData.append("userIcon", userIcon);
 
-    console.log(`${removeHyphen(userID)}.png`);
-    const { error } = await supabase.storage
-      .from("user_icons")
-      .upload(`${removeHyphen(userID)}.png`, userIcon);
-    if (error) {
+    const resIconPost = await fetch(`/api/account/${userID}/icon/new`, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!resIconPost.ok) {
+      console.error("Failed to post user icon");
       throw new Error("Failed to update user icon");
     }
 

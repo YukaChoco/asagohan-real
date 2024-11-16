@@ -2,53 +2,15 @@
 import { useEffect, useState } from "react";
 import type Asagohan from "@/app/types/Asagohan";
 
-//朝ごはんの仮のデータを作成
-
-const MOCK_ASAGOHANS: Asagohan[] = [
-  {
-    id: "1",
-    createdAt: "2021-10-01T12:34:56.789Z",
-    title: "朝ごはん1",
-    imagePath:
-      "https://prkmeuqkrooltclacpzl.supabase.co/storage/v1/object/public/asagohans/0.png",
-    isLiked: false,
-    likes: 10,
-    comments: [],
-    user: {
-      id: "1",
-      accountID: "user1",
-      name: "ユーザー1",
-      userIconPath:
-        "https://prkmeuqkrooltclacpzl.supabase.co/storage/v1/object/public/asagohans/0.png",
-    },
-    ranking: 1,
-  },
-  {
-    id: "2",
-    createdAt: "2021-10-01T12:34:56.789Z",
-    title: "朝ごはん1",
-    imagePath:
-      "https://prkmeuqkrooltclacpzl.supabase.co/storage/v1/object/public/asagohans/0.png",
-    isLiked: false,
-    likes: 10,
-    comments: [],
-    user: {
-      id: "1",
-      accountID: "user1",
-      name: "ユーザー1",
-      userIconPath:
-        "https://prkmeuqkrooltclacpzl.supabase.co/storage/v1/object/public/asagohans/0.png",
-    },
-    ranking: 2,
-  },
-];
-
-const useTodayAsagohans = (userID: string) => {
+const useTodayAsagohans = (userID: string | null, authLoading: boolean) => {
   const [asagohans, setAsagohans] = useState<Asagohan[] | null>(null);
   const [fetching, setFetching] = useState(false);
 
   const getTodayAsagohans = async (userID: string): Promise<Asagohan[]> => {
+    console.log("fetching asagohans...");
     const res = await fetch(`/api/asagohans/${userID}`);
+    console.log("res:", res);
+
     if (!res.ok) {
       throw new Error("Failed to fetch data");
     }
@@ -57,6 +19,14 @@ const useTodayAsagohans = (userID: string) => {
   };
 
   useEffect(() => {
+    if (authLoading) {
+      return;
+    }
+    if (!userID) {
+      setAsagohans(null);
+      setFetching(false);
+      return;
+    }
     setFetching(true);
     getTodayAsagohans(userID)
       .then((asagohans) => {
@@ -68,7 +38,7 @@ const useTodayAsagohans = (userID: string) => {
       .finally(() => {
         setFetching(false);
       });
-  }, [userID]);
+  }, [userID, authLoading]);
 
   const setAsagohanLike = async (
     asagohanID: string,
@@ -125,7 +95,7 @@ const useTodayAsagohans = (userID: string) => {
   };
 
   return {
-    asagohans: MOCK_ASAGOHANS,
+    asagohans,
     todayAsagohansFetching: fetching,
     setAsagohanLike,
     onClickLike,
