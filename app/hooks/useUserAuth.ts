@@ -48,7 +48,6 @@ const useUserAuth = () => {
         setIsAuthenticated(false);
         setUserID(null);
       } finally {
-        useFCM();
         setLoading(false);
       }
     };
