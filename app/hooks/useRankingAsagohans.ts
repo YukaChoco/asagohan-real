@@ -7,13 +7,7 @@ const useRankingAsagohans = () => {
   const [fetching, setFetching] = useState(true);
 
   const getRankingAsagohans = async (): Promise<RankingAsagohan[]> => {
-    const res = await fetch("/api/ranking/asagohans", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ dateString: new Date().toISOString() }),
-    });
+    const res = await fetch("/api/ranking/asagohans");
     if (!res.ok) {
       throw new Error("Failed to fetch data");
     }

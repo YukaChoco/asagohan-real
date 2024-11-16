@@ -9,6 +9,7 @@ export async function POST(request: Request) {
   const { userID } = await request.json();
 
   const date = toZonedTime(new Date(), "Asia/Tokyo");
+  date.setHours(date.getHours() + 9);
   const todayStartJP = date;
   todayStartJP.setHours(0, 0, 0, 0); // 今日の開始時刻 (00:00:00)
 

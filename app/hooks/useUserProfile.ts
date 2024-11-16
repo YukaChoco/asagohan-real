@@ -8,13 +8,7 @@ const useUserProfile = (accountID: string) => {
   const [fetching, setFetching] = useState(true);
 
   const getUserProfile = async (accountID: string): Promise<UserProfile> => {
-    const res = await fetch(`/api/account/${accountID}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ dateString: new Date().toISOString() }),
-    });
+    const res = await fetch(`/api/account/${accountID}`);
 
     if (!res.ok) {
       throw new Error("Failed to fetch data");

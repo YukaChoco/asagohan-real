@@ -20,6 +20,8 @@ interface AsagohanResponse {
 
 export async function GET(_: Request) {
   const date = toZonedTime(new Date(), "Asia/Tokyo");
+  date.setHours(date.getHours() + 9);
+
   const todayStart = date;
   todayStart.setHours(0, 0, 0, 0); // 今日の開始時刻 (00:00:00)
 

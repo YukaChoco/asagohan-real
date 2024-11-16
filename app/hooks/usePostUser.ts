@@ -21,7 +21,6 @@ const usePostUser = () => {
         userID,
         name,
         accountID,
-        dateString: new Date().toISOString(),
       }),
     });
 

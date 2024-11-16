@@ -52,6 +52,7 @@ export async function GET(
 
   const thisWeekAsagohans = Array.from({ length: 7 }, (_, i) => {
     const date = toZonedTime(new Date(), "Asia/Tokyo");
+    date.setHours(date.getHours() + 9);
 
     date.setDate(date.getDate() + i - 6);
     const targetAsagohan = asagohans.find(
