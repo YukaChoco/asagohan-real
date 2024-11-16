@@ -10,6 +10,12 @@
   height: auto;
 }
 
+.main {
+  padding: 0;
+  height: 100vh;
+  justify-content: center;
+}
+
 .page {
   display: flex;
   flex-direction: column;

@@ -4,9 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import Header from "@/app/components/Header";
 import { Avatar } from "@mui/material";
-import useRankingAsagohans from "../hooks/useRankingAsagohans";
-import useUserAuth from "../hooks/useUserAuth";
-import Loading from "../components/Loading";
+import useRankingAsagohans from "@/app/hooks/useRankingAsagohans";
+import useUserAuth from "@/app/hooks/useUserAuth";
+import Loading from "@/app/components/Loading";
+import NoAuthenticatedModal from "@/app/components/NoAuthenticatedModal";
 
 export default function Home() {
   const { authLoading } = useUserAuth();
@@ -42,6 +43,8 @@ export default function Home() {
         <div></div>
       </Header>
 
+      <NoAuthenticatedModal />
+
       <main className={styles.main}>
         {asagohans.map((asagohan, index) => {
           return (
@@ -58,12 +61,17 @@ export default function Home() {
               </div>
 
               <div className={styles.acount}>
-                <div className={styles.third}>
-                  <Avatar alt="投稿者イラスト" src={asagohan.user.userIconPath} />
-
-
-                  <div className={styles.account_name}>{asagohan.user.name}</div>
-                </div>
+                <Link href={`/user/${asagohan.user.accountID}`}>
+                  <div className={styles.third}>
+                    <Avatar
+                      alt="投稿者イラスト"
+                      src={asagohan.user.userIconPath}
+                    />
+                    <div className={styles.account_name}>
+                      {asagohan.user.name}
+                    </div>
+                  </div>
+                </Link>
                 <div className={styles.button}>
                   <div className={styles.good}>
                     <div className={styles.good_count}>{asagohan.likes}</div>
@@ -79,18 +87,17 @@ export default function Home() {
               </div>
               <div className={styles.container}>
                 <div className={styles.flame}>
-                <Image
-                  className={styles.post}
-                  src={asagohan.imagePath}
-                  alt={asagohan.title}
-                  width={319}
-                  height={229}
-                />
+                  <Image
+                    className={styles.post}
+                    src={asagohan.imagePath}
+                    alt={asagohan.title}
+                    width={319}
+                    height={229}
+                  />
                 </div>
               </div>
               <div className={styles.forth}>
                 <p className={styles.title}>{asagohan.title}</p>
-
               </div>
             </div>
           );
