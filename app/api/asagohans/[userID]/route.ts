@@ -57,10 +57,10 @@ export async function GET(
     });
   }
   if (!data || data.length === 0) {
-    return new Response(
-      `todayStartJP: ${todayStartJP.toISOString()}, todayEndJP: ${todayEndJP.toISOString()}`,
-      { status: 404 },
-    );
+    return new Response(JSON.stringify({ data: [] }), {
+      headers: { "Content-Type": "application/json" },
+      status: 201,
+    });
   }
 
   const publicAsagohanURL = await getPublicBucketURL("asagohans");
