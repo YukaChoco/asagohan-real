@@ -50,7 +50,7 @@ const usePostAsagohan = (userID: string | null) => {
   useEffect(() => {
     // MORNING_POST_START時からMORNING_POST_END時までしか朝ごはんを登録できない
     const nowDate = new Date();
-    nowDate.setHours(nowDate.getHours() + 9);
+    nowDate.setHours(nowDate.getHours() - 6);
     if (
       nowDate.getHours() < MORNING_POST_START ||
       nowDate.getHours() >= MORNING_POST_END
