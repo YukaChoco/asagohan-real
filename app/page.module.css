@@ -33,8 +33,8 @@
 
 .drawer {
   display: flex;
-  width: auto;
-  padding: 20px;
+  width: 100dvw;
+  padding: 0;
   height: 50vh;
   background-color: #f4f4e4;
   flex-direction: column;
@@ -43,7 +43,8 @@
 .usercomment {
   display: flex;
   gap: 15px;
-  margin-bottom: 25px;
+  margin: 0 20px;
+  margin-top: 25px;
 }
 
 .useravator {
@@ -56,6 +57,13 @@
 
 .commentpush {
   display: flex;
+  align-items: center;
+
+  padding: 0;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
 }
 
 .acount {

@@ -34,9 +34,11 @@ export async function GET(
   const userID = params.userID;
 
   const todayStartJP = new Date();
+  todayStartJP.setHours(todayStartJP.getHours() - 6);
   todayStartJP.setHours(0, 0, 0, 0); // 今日の開始時刻 (00:00:00)
 
   const todayEndJP = new Date();
+  todayEndJP.setHours(todayEndJP.getHours() - 6);
   todayEndJP.setHours(11, 59, 59, 999); // 今日の終了時刻 (11:59:59)
 
   const { data, error } = await supabase
