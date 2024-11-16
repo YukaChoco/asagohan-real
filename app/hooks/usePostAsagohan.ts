@@ -19,7 +19,11 @@ const usePostAsagohan = (userID: string | null) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ title, userID }),
+      body: JSON.stringify({
+        title,
+        userID,
+        dateString: new Date().toISOString(),
+      }),
     });
 
     console.log(res);
@@ -50,9 +54,17 @@ const usePostAsagohan = (userID: string | null) => {
   };
 
   useEffect(() => {
+    // TODO:
+    // , {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({ date: new Date() }),
+    // });
+
     // MORNING_POST_START時からMORNING_POST_END時までしか朝ごはんを登録できない
     const nowDate = new Date();
-    nowDate.setHours(nowDate.getHours() - 6);
     if (
       nowDate.getHours() < MORNING_POST_START ||
       nowDate.getHours() >= MORNING_POST_END

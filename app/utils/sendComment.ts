@@ -12,7 +12,7 @@ const sendComment = async (
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      created_at: new Date(),
+      created_at: new Date().toISOString(),
       userID,
       asagohanID,
       comment,

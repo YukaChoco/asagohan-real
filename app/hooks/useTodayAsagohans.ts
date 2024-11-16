@@ -8,7 +8,13 @@ const useTodayAsagohans = (userID: string | null, authLoading: boolean) => {
 
   const getTodayAsagohans = async (userID: string): Promise<Asagohan[]> => {
     console.log("fetching asagohans...");
-    const res = await fetch(`/api/asagohans/${userID}`);
+    const res = await fetch(`/api/asagohans/${userID}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ dateString: new Date().toISOString() }),
+    });
     console.log("res:", res);
 
     if (!res.ok) {
