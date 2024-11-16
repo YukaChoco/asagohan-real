@@ -5,6 +5,8 @@ import { MORNING_POST_END, MORNING_POST_START } from "@/app/const";
 const usePostAsagohan = (userID: string | null) => {
   const [sending, setSending] = useState<boolean>(false);
   const [canSend, setCanSend] = useState<string | null>(null);
+  console.log("client");
+  console.log(new Date());
 
   const postAsagohan = async (title: string, image: File) => {
     if (!userID) {
