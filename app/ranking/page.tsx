@@ -61,16 +61,17 @@ export default function Home() {
               </div>
 
               <div className={styles.acount}>
-                <div className={styles.third}>
-                  <Avatar
-                    alt="投稿者イラスト"
-                    src={asagohan.user.userIconPath}
-                  />
-
-                  <div className={styles.account_name}>
-                    {asagohan.user.name}
+                <Link href={`/user/${asagohan.user.accountID}`}>
+                  <div className={styles.third}>
+                    <Avatar
+                      alt="投稿者イラスト"
+                      src={asagohan.user.userIconPath}
+                    />
+                    <div className={styles.account_name}>
+                      {asagohan.user.name}
+                    </div>
                   </div>
-                </div>
+                </Link>
                 <div className={styles.button}>
                   <div className={styles.good}>
                     <div className={styles.good_count}>{asagohan.likes}</div>

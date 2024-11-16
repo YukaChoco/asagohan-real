@@ -158,17 +158,22 @@ export default function Home() {
               selectedAsagohan.comments.map((comment, index) => {
                 return (
                   <div key={index} className={styles.usercomment}>
-                    <div className={styles.useravatar}>
-                      <Avatar
-                        alt="コメント者イラスト"
-                        src={comment.user.userIconPath}
-                      />
-                    </div>
+                    <Link href={`/user/${comment.user.accountID}`}>
+                      <div className={styles.useravatar}>
+                        <Avatar
+                          alt="コメント者イラスト"
+                          src={comment.user.userIconPath}
+                          sx={{ width: "46px", height: "46px" }}
+                        />
+                      </div>
+                    </Link>
                     <div className={styles.timecomment}>
                       <p style={{ marginTop: "0", marginBottom: "0" }}>
-                        <span style={{ color: "#402011" }}>
-                          {comment.user.name}
-                        </span>
+                        <Link href={`/user/${comment.user.accountID}`}>
+                          <span style={{ color: "#402011" }}>
+                            {comment.user.name}
+                          </span>
+                        </Link>
                         <span style={{ color: "#605b58", paddingLeft: "10px" }}>
                           {comment.createdAt}
                         </span>
@@ -235,13 +240,15 @@ export default function Home() {
           return (
             <div key={index} className={styles.userpush}>
               <div className={styles.acount}>
-                <div className={styles.third}>
-                  <Avatar
-                    alt="投稿者イラスト"
-                    src={asagohan.user.userIconPath}
-                  />
-                  <p>{asagohan.user.name}</p>
-                </div>
+                <Link href={`/user/${asagohan.user.accountID}`}>
+                  <div className={styles.third}>
+                    <Avatar
+                      alt="投稿者イラスト"
+                      src={asagohan.user.userIconPath}
+                    />
+                    <p>{asagohan.user.name}</p>
+                  </div>
+                </Link>
                 <p className={styles.time}>{asagohan.createdAt}</p>
               </div>
               <div className={styles.container}>
