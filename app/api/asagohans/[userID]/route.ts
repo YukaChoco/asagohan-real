@@ -37,7 +37,6 @@ export async function GET(
   const date = toZonedTime(new Date(), "Asia/Tokyo");
   date.setHours(date.getHours() + 9);
   date.setHours(0, 0, 0, 0);
-  date.setHours(date.getHours() + 9);
 
   const { data, error } = await supabase
     .from("asagohans")
