@@ -4,7 +4,7 @@ export async function POST(request: Request) {
   const { userID, title } = await request.json();
 
   const nowDate = new Date();
-  nowDate.setHours(nowDate.getHours() + 9);
+  nowDate.setHours(nowDate.getHours() - 6);
 
   // 3時から12時までしか朝ごはんを登録できない
   if (nowDate.getHours() < 3 || nowDate.getHours() >= 12) {
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
   }
 
   const date = new Date();
-  date.setHours(date.getHours() + 9);
+  date.setHours(date.getHours() - 6);
 
   const { data, error } = await supabase
     .from("asagohans")
