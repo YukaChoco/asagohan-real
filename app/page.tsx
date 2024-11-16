@@ -17,6 +17,7 @@ import useUserAuth from "./hooks/useUserAuth";
 import { useState } from "react";
 import Loading from "./components/Loading";
 import NoAuthenticatedModal from "./components/NoAuthenticatedModal";
+import sendComment from "./utils/sendComment";
 
 export default function Home() {
   const { userID, accountID, authLoading } = useUserAuth();
@@ -27,6 +28,11 @@ export default function Home() {
   const [selectedAsagohan, setSelectedAsagohan] = useState<Asagohan | null>(
     null,
   );
+
+  const [currentComment, setCurrentComment] = useState<string>(
+    ""
+  );
+
 
   if (authLoading || todayAsagohansFetching) {
     return <Loading />;
@@ -98,6 +104,15 @@ export default function Home() {
     onClickLike(asagohan);
   };
 
+  const handleSend = (asagohan: Asagohan | null, comment: string) => {
+    if (asagohan !== null) {
+      if (userID !== null) {
+        sendComment(userID, asagohan.id, comment);
+      }
+    }
+
+  }
+
   const drawerIsOpen = selectedAsagohan !== null;
 
   return (
@@ -149,7 +164,7 @@ export default function Home() {
       </Header>
       <main className={styles.main}>
         <Drawer
-        sx={{width:"100dvw"}}
+          sx={{ width: "100dvw" }}
           anchor="bottom"
           open={drawerIsOpen}
           onClose={() => setSelectedAsagohan(null)}
@@ -196,11 +211,13 @@ export default function Home() {
               <div className={styles.usercomment}></div>
             )}
             <div className={styles.commentpush}>
-              <Stack direction="row" spacing={2} sx={{ width: "100%" ,maxWidth: "100%"}}>
+              <Stack direction="row" spacing={2} sx={{ width: "100%", maxWidth: "100%" }}>
                 <TextField
                   label="コメントを入力..."
                   variant="outlined"
                   fullWidth
+                  value={currentComment}
+                  onChange={(e) => setCurrentComment(e.target.value)}
                   sx={{
                     "& .MuiOutlinedInput-root": { fontFamily: "var(--font)" },
                     "& input": { color: "var(--primary)" },
@@ -208,6 +225,7 @@ export default function Home() {
                   }}
                 />
                 <Button
+                  onClick={() => handleSend(selectedAsagohan, currentComment)}
                   variant="contained"
                   endIcon={<SendIcon />}
                   sx={{ backgroundColor: "#5a2d0c", color: "white" }}
