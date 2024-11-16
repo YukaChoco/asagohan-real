@@ -50,7 +50,10 @@ export async function GET(
   const asagohans = data.asagohans;
 
   const thisWeekAsagohans = Array.from({ length: 7 }, (_, i) => {
+    // タイムゾーンをUTCで取得
     const date = new Date();
+    date.setHours(date.getHours() + 9);
+
     date.setDate(date.getDate() + i - 6);
     const targetAsagohan = asagohans.find(
       (asagohan) => new Date(asagohan.created_at).getDate() === date.getDate(),
