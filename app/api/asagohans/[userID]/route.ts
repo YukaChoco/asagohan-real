@@ -35,13 +35,13 @@ export async function GET(
 ) {
   const userID = params.userID;
 
-  const date = toZonedTime(new Date(), "Asia/Tokyo");
-  date.setHours(date.getHours() + 9);
-  const todayStartJP = date;
+  const todayStartJP = toZonedTime(new Date(), "Asia/Tokyo");
+  todayStartJP.setHours(todayStartJP.getHours() + 9);
   todayStartJP.setHours(0, 0, 0, 0); // 今日の開始時刻 (00:00:00)
   todayStartJP.setHours(todayStartJP.getHours() + 9);
 
-  const todayEndJP = date;
+  const todayEndJP = toZonedTime(new Date(), "Asia/Tokyo");
+  todayEndJP.setHours(todayEndJP.getHours() + 9);
   todayEndJP.setHours(12, 0, 0, 0); // 今日の終了時刻 (11:59:59)
   todayEndJP.setHours(todayEndJP.getHours() + 9);
 
