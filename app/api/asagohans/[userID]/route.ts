@@ -28,16 +28,18 @@ interface AsagohanResponse {
 }
 
 export async function GET(
-  _: Request,
+  request: Request,
   { params }: { params: { userID: string } },
 ) {
   const userID = params.userID;
+  const { dateString } = await request.json();
 
-  const todayStartJP = new Date();
+  const date = new Date(dateString);
+  const todayStartJP = date;
   todayStartJP.setHours(todayStartJP.getHours() - 6);
   todayStartJP.setHours(0, 0, 0, 0); // 今日の開始時刻 (00:00:00)
 
-  const todayEndJP = new Date();
+  const todayEndJP = date;
   todayEndJP.setHours(todayEndJP.getHours() - 6);
   todayEndJP.setHours(11, 59, 59, 999); // 今日の終了時刻 (11:59:59)
 

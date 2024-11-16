@@ -18,10 +18,11 @@ interface UserResponse {
 }
 
 export async function GET(
-  _: Request,
+  request: Request,
   { params }: { params: { accountID: string } },
 ) {
   const accountID = params.accountID;
+  const { dateString } = await request.json();
 
   const { data, error } = await supabase
     .from("users")
@@ -50,8 +51,7 @@ export async function GET(
   const asagohans = data.asagohans;
 
   const thisWeekAsagohans = Array.from({ length: 7 }, (_, i) => {
-    // タイムゾーンをUTCで取得
-    const date = new Date();
+    const date = new Date(dateString);
     date.setHours(date.getHours() - 6);
 
     date.setDate(date.getDate() + i - 6);

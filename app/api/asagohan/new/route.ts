@@ -1,9 +1,9 @@
 import supabase from "@/app/supabase";
 
 export async function POST(request: Request) {
-  const { userID, title } = await request.json();
+  const { userID, title, dateString } = await request.json();
 
-  const nowDate = new Date();
+  const nowDate = new Date(dateString);
   nowDate.setHours(nowDate.getHours() - 6);
 
   // 3時から12時までしか朝ごはんを登録できない
@@ -40,13 +40,10 @@ export async function POST(request: Request) {
     }
   }
 
-  const date = new Date();
-  date.setHours(date.getHours() - 6);
-
   const { data, error } = await supabase
     .from("asagohans")
     .insert({
-      created_at: date,
+      created_at: nowDate,
       user_id: userID,
       title: title,
     })
