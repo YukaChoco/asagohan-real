@@ -4,9 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import Header from "@/app/components/Header";
 import { Avatar } from "@mui/material";
-import useRankingAsagohans from "../hooks/useRankingAsagohans";
-import useUserAuth from "../hooks/useUserAuth";
-import Loading from "../components/Loading";
+import useRankingAsagohans from "@/app/hooks/useRankingAsagohans";
+import useUserAuth from "@/app/hooks/useUserAuth";
+import Loading from "@/app/components/Loading";
+import NoAuthenticatedModal from "@/app/components/NoAuthenticatedModal";
 
 export default function Home() {
   const { authLoading } = useUserAuth();
@@ -42,6 +43,8 @@ export default function Home() {
         <div></div>
       </Header>
 
+      <NoAuthenticatedModal />
+
       <main className={styles.main}>
         {asagohans.map((asagohan, index) => {
           return (
@@ -58,16 +61,23 @@ export default function Home() {
               </div>
 
               <div className={styles.acount}>
-                <div className={styles.third}>
-                  <Avatar alt="投稿者イラスト" src="user_image.png" />
-                  <div className={styles.account_name}>アカウント名</div>
-                </div>
+                <Link href={`/user/${asagohan.user.accountID}`}>
+                  <div className={styles.third}>
+                    <Avatar
+                      alt="投稿者イラスト"
+                      src={asagohan.user.userIconPath}
+                    />
+                    <div className={styles.account_name}>
+                      {asagohan.user.name}
+                    </div>
+                  </div>
+                </Link>
                 <div className={styles.button}>
                   <div className={styles.good}>
                     <div className={styles.good_count}>{asagohan.likes}</div>
                     <Image
                       className={styles.goodbutton}
-                      src="いいねボタン.svg"
+                      src="いいね前のボタン.svg"
                       alt="いいねボタン画像"
                       width={25}
                       height={25}
@@ -76,13 +86,15 @@ export default function Home() {
                 </div>
               </div>
               <div className={styles.container}>
-                <Image
-                  className={styles.post}
-                  src="朝ごはん投稿画像.svg"
-                  alt="朝ごはん投稿画像"
-                  width={300}
-                  height={300}
-                />
+                <div className={styles.flame}>
+                  <Image
+                    className={styles.post}
+                    src={asagohan.imagePath}
+                    alt={asagohan.title}
+                    width={319}
+                    height={229}
+                  />
+                </div>
               </div>
               <div className={styles.forth}>
                 <p className={styles.title}>{asagohan.title}</p>

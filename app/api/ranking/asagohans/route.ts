@@ -1,5 +1,8 @@
 import supabase from "@/app/supabase";
 import type { RankingAsagohan } from "@/app/types/Asagohan";
+import getAsagohanImagePath from "@/app/utils/getAsagohanImagePath";
+import getPublicBucketURL from "@/app/utils/getPublicUserIconURL";
+import getUserIconPath from "@/app/utils/getUserIconPath";
 
 interface AsagohanResponse {
   id: string;
@@ -45,14 +48,9 @@ export async function GET() {
       status: 404,
     });
   }
-  const publicAsagohanURLresponseData = await supabase.storage
-    .from("asagohans")
-    .getPublicUrl("");
-  const publicUserIconURLresponseData = await supabase.storage
-    .from("user-icons")
-    .getPublicUrl("");
-  const publicAsagohanURL = publicAsagohanURLresponseData.data.publicUrl || "";
-  const publicUserIconURL = publicUserIconURLresponseData.data.publicUrl || "";
+
+  const publicAsagohanURL = await getPublicBucketURL("asagohans");
+  const publicUserIconsURL = await getPublicBucketURL("user_icons");
 
   // いいね数でソート
   const sortedData = data.sort((a, b) => b.likes.length - a.likes.length);
@@ -62,13 +60,13 @@ export async function GET() {
     .slice(0, 3)
     .map((asagohan, index) => ({
       title: asagohan.title,
-      imagePath: `${publicAsagohanURL}${asagohan.id}.png`,
+      imagePath: getAsagohanImagePath(publicAsagohanURL, asagohan.id),
       likes: asagohan.likes.length,
       user: {
         id: asagohan.user.id,
         name: asagohan.user.name,
         accountID: asagohan.user.account_id,
-        userIconPath: `${publicUserIconURL}${asagohan.user.id}.png`,
+        userIconPath: getUserIconPath(publicUserIconsURL, asagohan.user.id),
       },
       ranking: index + 1,
     }));
