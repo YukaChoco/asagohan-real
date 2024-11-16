@@ -34,6 +34,8 @@ export async function GET(
   { params }: { params: { userID: string } },
 ) {
   const userID = params.userID;
+  const date = toZonedTime(new Date(), "Asia/Tokyo");
+  date.setHours(date.getHours() + 9);
 
   const { data, error } = await supabase
     .from("asagohans")
@@ -45,10 +47,7 @@ export async function GET(
       user: user_id (id, name, account_id)
       `,
     )
-    .gte(
-      "created_at",
-      toZonedTime(new Date(), "Asia/Tokyo").setHours(0, 0, 0, 0),
-    )
+    .gte("created_at", date.setHours(0, 0, 0, 0))
     .returns<AsagohanResponse[]>();
 
   if (error) {
