@@ -9,6 +9,7 @@ const useUserProfile = (accountID: string) => {
 
   const getUserProfile = async (accountID: string): Promise<UserProfile> => {
     const res = await fetch(`/api/account/${accountID}`);
+
     if (!res.ok) {
       throw new Error("Failed to fetch data");
     }

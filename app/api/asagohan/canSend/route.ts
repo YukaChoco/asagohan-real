@@ -1,4 +1,5 @@
 import supabase from "@/app/supabase";
+import { toZonedTime } from "date-fns-tz";
 
 interface AsagohanResponse {
   id: string;
@@ -6,20 +7,14 @@ interface AsagohanResponse {
 
 export async function POST(request: Request) {
   const { userID } = await request.json();
-
-  const todayStartJP = new Date();
-  todayStartJP.setHours(todayStartJP.getHours() - 6);
-  todayStartJP.setHours(0, 0, 0, 0); // 今日の開始時刻 (00:00:00)
-
-  const todayEndJP = new Date();
-  todayEndJP.setHours(todayEndJP.getHours() - 6);
-  todayEndJP.setHours(11, 59, 59, 999); // 今日の終了時刻 (11:59:59)
+  const date = toZonedTime(new Date(), "Asia/Tokyo");
+  date.setHours(date.getHours() + 9);
+  date.setHours(0, 0, 0, 0);
 
   const { data, error } = await supabase
     .from("asagohans")
     .select("id")
-    .gte("created_at", todayStartJP.toISOString()) // 今日の開始時刻以降
-    .lte("created_at", todayEndJP.toISOString()) // 今日の終了時刻以前
+    .gte("created_at", date.toISOString())
     .eq("user_id", userID)
     .returns<AsagohanResponse[]>();
 

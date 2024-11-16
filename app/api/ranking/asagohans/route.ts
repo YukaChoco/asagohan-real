@@ -1,4 +1,5 @@
 import supabase from "@/app/supabase";
+import { toZonedTime } from "date-fns-tz";
 import type { RankingAsagohan } from "@/app/types/Asagohan";
 import getAsagohanImagePath from "@/app/utils/getAsagohanImagePath";
 import getPublicBucketURL from "@/app/utils/getPublicUserIconURL";
@@ -17,14 +18,11 @@ interface AsagohanResponse {
   };
 }
 
-export async function GET() {
-  const todayStart = new Date();
-  todayStart.setHours(todayStart.getHours() - 6);
-  todayStart.setHours(0, 0, 0, 0); // 今日の開始時刻 (00:00:00)
-
-  const todayEnd = new Date();
-  todayEnd.setHours(todayEnd.getHours() - 6);
-  todayEnd.setHours(11, 59, 59, 999); // 今日の終了時刻 (11:59:59)
+export async function GET(_: Request) {
+  // 今日投稿された朝ごはんのみを取得
+  const date = toZonedTime(new Date(), "Asia/Tokyo");
+  date.setHours(date.getHours() + 9);
+  date.setHours(0, 0, 0, 0);
 
   const { data, error } = await supabase
     .from("asagohans")
@@ -36,8 +34,7 @@ export async function GET() {
       user: user_id (id, name, account_id)
       `,
     )
-    .gte("created_at", todayStart.toISOString()) // 今日の開始時刻以降
-    .lte("created_at", todayEnd.toISOString()) // 今日の終了時刻以前
+    .gte("created_at", date.toISOString())
     .returns<AsagohanResponse[]>();
 
   if (error) {

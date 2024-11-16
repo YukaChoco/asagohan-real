@@ -12,7 +12,6 @@ const sendComment = async (
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      created_at: new Date(),
       userID,
       asagohanID,
       comment,

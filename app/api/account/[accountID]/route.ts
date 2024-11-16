@@ -1,4 +1,5 @@
 import supabase from "@/app/supabase";
+import { toZonedTime } from "date-fns-tz";
 import type { UserProfile } from "@/app/types/User";
 import getAsagohanImagePath from "@/app/utils/getAsagohanImagePath";
 import getPublicBucketURL from "@/app/utils/getPublicUserIconURL";
@@ -50,9 +51,8 @@ export async function GET(
   const asagohans = data.asagohans;
 
   const thisWeekAsagohans = Array.from({ length: 7 }, (_, i) => {
-    // タイムゾーンをUTCで取得
-    const date = new Date();
-    date.setHours(date.getHours() - 6);
+    const date = toZonedTime(new Date(), "Asia/Tokyo");
+    date.setHours(date.getHours() + 9);
 
     date.setDate(date.getDate() + i - 6);
     const targetAsagohan = asagohans.find(
@@ -83,13 +83,13 @@ export async function GET(
       : null;
   const bestAsagohanID = bestAsagohan ? bestAsagohan.id : "0";
 
-  const publicAsagohanURL = await getPublicBucketURL("asagohans");
-  const publicUserIconsURL = await getPublicBucketURL("user_icons");
-
   const formatCreatedAtDate = (dateString: string) => {
     const date = new Date(dateString);
     return `${date.getMonth() + 1}月${date.getDate()}日`;
   };
+
+  const publicAsagohanURL = await getPublicBucketURL("asagohans");
+  const publicUserIconsURL = await getPublicBucketURL("user_icons");
 
   const user: UserProfile = {
     id: data.id,

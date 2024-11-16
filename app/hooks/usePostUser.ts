@@ -17,7 +17,11 @@ const usePostUser = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userID, name, accountID }),
+      body: JSON.stringify({
+        userID,
+        name,
+        accountID,
+      }),
     });
 
     if (!resUserPost.ok) {

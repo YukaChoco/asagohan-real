@@ -1,12 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
+import { toZonedTime } from "date-fns-tz";
 import { MORNING_POST_END, MORNING_POST_START } from "@/app/const";
 
 const usePostAsagohan = (userID: string | null) => {
   const [sending, setSending] = useState<boolean>(false);
   const [canSend, setCanSend] = useState<string | null>(null);
-  console.log("client");
-  console.log(new Date());
 
   const postAsagohan = async (title: string, image: File) => {
     if (!userID) {
@@ -19,7 +18,10 @@ const usePostAsagohan = (userID: string | null) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ title, userID }),
+      body: JSON.stringify({
+        title,
+        userID,
+      }),
     });
 
     console.log(res);
@@ -51,8 +53,7 @@ const usePostAsagohan = (userID: string | null) => {
 
   useEffect(() => {
     // MORNING_POST_START時からMORNING_POST_END時までしか朝ごはんを登録できない
-    const nowDate = new Date();
-    nowDate.setHours(nowDate.getHours() - 6);
+    const nowDate = toZonedTime(new Date(), "Asia/Tokyo");
     if (
       nowDate.getHours() < MORNING_POST_START ||
       nowDate.getHours() >= MORNING_POST_END

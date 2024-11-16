@@ -1,4 +1,5 @@
 import supabase from "@/app/supabase";
+import { toZonedTime } from "date-fns-tz";
 import type Asagohan from "@/app/types/Asagohan";
 import getAsagohanImagePath from "@/app/utils/getAsagohanImagePath";
 import getPublicBucketURL from "@/app/utils/getPublicUserIconURL";
@@ -32,14 +33,9 @@ export async function GET(
   { params }: { params: { userID: string } },
 ) {
   const userID = params.userID;
-
-  const todayStartJP = new Date();
-  todayStartJP.setHours(todayStartJP.getHours() - 6);
-  todayStartJP.setHours(0, 0, 0, 0); // 今日の開始時刻 (00:00:00)
-
-  const todayEndJP = new Date();
-  todayEndJP.setHours(todayEndJP.getHours() - 6);
-  todayEndJP.setHours(11, 59, 59, 999); // 今日の終了時刻 (11:59:59)
+  const date = toZonedTime(new Date(), "Asia/Tokyo");
+  date.setHours(date.getHours() + 9);
+  date.setHours(0, 0, 0, 0);
 
   const { data, error } = await supabase
     .from("asagohans")
@@ -51,9 +47,13 @@ export async function GET(
       user: user_id (id, name, account_id)
       `,
     )
-    .gte("created_at", todayStartJP.toISOString()) // 今日の開始時刻以降
-    .lte("created_at", todayEndJP.toISOString()) // 今日の終了時刻以前
+    .gte("created_at", date.toISOString())
     .returns<AsagohanResponse[]>();
+
+  const formatCreatedAtDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return `${date.getHours()}時${date.getMinutes()}分`;
+  };
 
   if (error) {
     return new Response(`Internal Server Error: ${error.message}`, {
@@ -61,16 +61,14 @@ export async function GET(
     });
   }
   if (!data || data.length === 0) {
-    return new Response("No data found", { status: 404 });
+    return new Response(JSON.stringify({ data: [] }), {
+      headers: { "Content-Type": "application/json" },
+      status: 201,
+    });
   }
 
   const publicAsagohanURL = await getPublicBucketURL("asagohans");
   const publicUserIconsURL = await getPublicBucketURL("user_icons");
-
-  const formatCreatedAtDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return `${date.getHours()}時${date.getMinutes()}分`;
-  };
 
   // いいね数でソートし、ランキングを付ける
   const rankedData = data
