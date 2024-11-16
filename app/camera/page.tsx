@@ -10,12 +10,12 @@ import Loading from "@/app/components/Loading";
 import NoAuthenticatedModal from "@/app/components/NoAuthenticatedModal";
 
 export default function Home() {
-  const { userID } = useUserAuth();
+  const { userID, authLoading } = useUserAuth();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [inputFile, setInputFile] = useState<File | null>(null);
   const [open, setOpen] = useState(false);
   const [newName, setNewName] = useState<string>("");
-  const { postAsagohan, asagohanSending } = usePostAsagohan(userID || "");
+  const { postAsagohan, asagohanSending, canSend } = usePostAsagohan(userID);
 
   const modalStyle = {
     position: "absolute",
@@ -68,6 +68,10 @@ export default function Home() {
     }
   };
 
+  if (asagohanSending || authLoading) {
+    return <Loading />;
+  }
+
   if (!userID) {
     return (
       <>
@@ -80,8 +84,38 @@ export default function Home() {
     );
   }
 
-  if (asagohanSending) {
-    return <Loading />;
+  if (canSend) {
+    return (
+      <>
+        <NoAuthenticatedModal />
+
+        <main className={styles.main}>
+          <p>{canSend}</p>
+          <a
+            href="/"
+            style={{
+              width: "80%",
+              height: "fit-content",
+              marginBottom: "40px",
+            }}
+          >
+            <Button
+              variant="contained"
+              fullWidth
+              sx={{
+                marginTop: "20px",
+                backgroundColor: "var(--light)",
+                color: "var(--primary)",
+                fontFamily: "var(--font)",
+              }}
+              role="link"
+            >
+              朝ごはん一覧にもどる
+            </Button>
+          </a>
+        </main>
+      </>
+    );
   }
 
   return (
