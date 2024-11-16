@@ -86,13 +86,15 @@ export default function Home() {
                 </div>
               </div>
               <div className={styles.container}>
-                <Image
-                  className={styles.post}
-                  src={asagohan.imagePath}
-                  alt={asagohan.title}
-                  width={300}
-                  height={300}
-                />
+                <div className={styles.flame}>
+                  <Image
+                    className={styles.post}
+                    src={asagohan.imagePath}
+                    alt={asagohan.title}
+                    width={319}
+                    height={229}
+                  />
+                </div>
               </div>
               <div className={styles.forth}>
                 <p className={styles.title}>{asagohan.title}</p>
