@@ -2,12 +2,15 @@
 import { useEffect, useState } from "react";
 import type Asagohan from "@/app/types/Asagohan";
 
-const useTodayAsagohans = (userID: string) => {
+const useTodayAsagohans = (userID: string | null, authLoading: boolean) => {
   const [asagohans, setAsagohans] = useState<Asagohan[] | null>(null);
   const [fetching, setFetching] = useState(false);
 
   const getTodayAsagohans = async (userID: string): Promise<Asagohan[]> => {
+    console.log("fetching asagohans...");
     const res = await fetch(`/api/asagohans/${userID}`);
+    console.log("res:", res);
+
     if (!res.ok) {
       throw new Error("Failed to fetch data");
     }
@@ -16,6 +19,14 @@ const useTodayAsagohans = (userID: string) => {
   };
 
   useEffect(() => {
+    if (authLoading) {
+      return;
+    }
+    if (!userID) {
+      setAsagohans(null);
+      setFetching(false);
+      return;
+    }
     setFetching(true);
     getTodayAsagohans(userID)
       .then((asagohans) => {
@@ -27,7 +38,7 @@ const useTodayAsagohans = (userID: string) => {
       .finally(() => {
         setFetching(false);
       });
-  }, [userID]);
+  }, [userID, authLoading]);
 
   const setAsagohanLike = async (
     asagohanID: string,

@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import supabase from "../supabase";
+import checkCurrentUserID from "@/app/checkCurrentUserID";
 
 const useUserAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -11,6 +11,7 @@ const useUserAuth = () => {
   const fetchAccountID = async (loginUserID: string) => {
     try {
       const res = await fetch(`/api/user/auth/${loginUserID}`);
+      console.log("res", res);
       if (!res.ok) {
         setAccountID(null);
         throw new Error("Failed to fetch data");
@@ -25,22 +26,17 @@ const useUserAuth = () => {
 
   const checkUserAuth = async () => {
     try {
-      const { data, error } = await supabase.auth.getSession();
-      if (error) {
-        console.error("Error fetching session:", error);
-        setIsAuthenticated(false);
-        setUserID(null);
-      } else if (data.session) {
-        const userData = data.session.user;
-        // Ensure userData.email is defined
-        if (userData && userData.id) {
-          setIsAuthenticated(true);
-          setUserID(userData.id);
-          await fetchAccountID(userData.id);
-        } else {
-          setIsAuthenticated(false);
-          setUserID(null);
-        }
+      const checkCurrentUserIDResponse = await checkCurrentUserID();
+      const currentUserID = checkCurrentUserIDResponse.userID;
+      const errorMessage = checkCurrentUserIDResponse.errorMessage;
+      if (checkCurrentUserIDResponse.errorMessage) {
+        console.error("Error checking authentication:", errorMessage);
+        throw new Error(checkCurrentUserIDResponse.errorMessage);
+      }
+      if (currentUserID) {
+        setIsAuthenticated(true);
+        setUserID(currentUserID);
+        await fetchAccountID(currentUserID);
       } else {
         setIsAuthenticated(false);
         setUserID(null);
@@ -58,17 +54,7 @@ const useUserAuth = () => {
     checkUserAuth();
   }, []);
 
-  useEffect(() => {
-    if (!loading) {
-      if (isAuthenticated) {
-        console.log("Authenticated");
-      } else {
-        window.location.href = "/login";
-      }
-    }
-  }, [isAuthenticated, loading]);
-
-  return { userID, accountID, authLoading: loading };
+  return { userID, accountID, authLoading: loading, isAuthenticated };
 };
 
 export default useUserAuth;

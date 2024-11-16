@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 import nextPWA from "next-pwa";
+import { hostname } from "os";
+import path from "path";
 
 const withPWA = nextPWA({
   dest: "public",
@@ -11,7 +13,11 @@ const withPWA = nextPWA({
 const nextConfig = withPWA({
   reactStrictMode: true,
   images: {
-    domains: ["prkmeuqkrooltclacpzl.supabase.co"],
+    remotePatterns: [
+      {
+        hostname: "prkmeuqkrooltclacpzl.supabase.co",
+      },
+    ],
   },
 });
 
