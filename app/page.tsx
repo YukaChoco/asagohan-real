@@ -84,7 +84,10 @@ export default function Home() {
           </div>
         </Header>
         <NoAuthenticatedModal />
-        <main className={styles.notAsagohan}>
+        <main
+          style={{ justifyContent: "center" }}
+          className={styles.notAsagohan}
+        >
           誰もまだ朝ごはんを投稿していません
         </main>
       </div>

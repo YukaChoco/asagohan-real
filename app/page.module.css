@@ -18,13 +18,17 @@
 }
 
 .main {
-  padding: 80px 20px 10px 20px;
+  padding: 80px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
 }
 
 .userpush {
   width: 100%;
   padding-bottom: 80px;
   border-bottom: 3px solid #f4f4e4;
+  position: relative;
 }
 
 .drawer {
@@ -126,8 +130,9 @@
 .rankingstar {
   position: absolute;
   /*親要素にrelative*/
-  top: 390px;
-  right: 30px;
+  top: 270px;
+  left: 140px;
+  width: 100%;
 }
 
 .star {
