@@ -3,7 +3,6 @@ import "./globals.css";
 import { Yusei_Magic } from "next/font/google";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/app/theme";
-import Notification from "@/app/components/Notification";
 
 const yuseiMagic = Yusei_Magic({
   weight: "400",
@@ -33,7 +32,6 @@ export default function RootLayout({
       <body className={yuseiMagic.className}>
         <ThemeProvider theme={theme}>{children}</ThemeProvider>
       </body>
-      <Notification />
     </html>
   );
 }
