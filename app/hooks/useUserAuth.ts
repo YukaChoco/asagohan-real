@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import checkCurrentUserID from "@/app/checkCurrentUserID";
-import { useFCM } from "./useFCM";
 
 const useUserAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
