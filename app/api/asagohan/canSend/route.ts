@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   const { data, error } = await supabase
     .from("asagohans")
     .select("id")
-    .gte("created_at", date)
+    .gte("created_at", date.toISOString())
     .eq("user_id", userID)
     .returns<AsagohanResponse[]>();
 

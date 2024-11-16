@@ -49,7 +49,7 @@ export async function GET(
       user: user_id (id, name, account_id)
       `,
     )
-    .gte("created_at", date)
+    .gte("created_at", date.toISOString())
     .returns<AsagohanResponse[]>();
 
   if (error) {
