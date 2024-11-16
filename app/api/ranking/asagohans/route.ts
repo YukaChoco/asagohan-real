@@ -22,6 +22,8 @@ export async function GET(_: Request) {
   // 今日投稿された朝ごはんのみを取得
   const date = toZonedTime(new Date(), "Asia/Tokyo");
   date.setHours(date.getHours() + 9);
+  date.setHours(0, 0, 0, 0);
+  date.setHours(date.getHours() + 9);
 
   const { data, error } = await supabase
     .from("asagohans")
@@ -33,7 +35,7 @@ export async function GET(_: Request) {
       user: user_id (id, name, account_id)
       `,
     )
-    .gte("created_at", date.setHours(0, 0, 0, 0))
+    .gte("created_at", date)
     .returns<AsagohanResponse[]>();
 
   if (error) {

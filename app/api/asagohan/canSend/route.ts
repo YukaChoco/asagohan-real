@@ -9,11 +9,13 @@ export async function POST(request: Request) {
   const { userID } = await request.json();
   const date = toZonedTime(new Date(), "Asia/Tokyo");
   date.setHours(date.getHours() + 9);
+  date.setHours(0, 0, 0, 0);
+  date.setHours(date.getHours() + 9);
 
   const { data, error } = await supabase
     .from("asagohans")
     .select("id")
-    .gte("created_at", date.setHours(0, 0, 0, 0))
+    .gte("created_at", date)
     .eq("user_id", userID)
     .returns<AsagohanResponse[]>();
 
