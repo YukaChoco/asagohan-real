@@ -4,7 +4,6 @@ import type { UserProfile } from "@/app/types/User";
 import getAsagohanImagePath from "@/app/utils/getAsagohanImagePath";
 import getPublicBucketURL from "@/app/utils/getPublicUserIconURL";
 import getUserIconPath from "@/app/utils/getUserIconPath";
-import formatCreatedAtDate from "@/app/utils/formatCreatedAtDate";
 
 interface UserResponse {
   id: string;
@@ -83,6 +82,11 @@ export async function GET(
         )
       : null;
   const bestAsagohanID = bestAsagohan ? bestAsagohan.id : "0";
+
+  const formatCreatedAtDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return `${date.getMonth() + 1}月${date.getDate()}日`;
+  };
 
   const publicAsagohanURL = await getPublicBucketURL("asagohans");
   const publicUserIconsURL = await getPublicBucketURL("user_icons");

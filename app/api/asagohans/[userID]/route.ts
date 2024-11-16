@@ -4,7 +4,6 @@ import type Asagohan from "@/app/types/Asagohan";
 import getAsagohanImagePath from "@/app/utils/getAsagohanImagePath";
 import getPublicBucketURL from "@/app/utils/getPublicUserIconURL";
 import getUserIconPath from "@/app/utils/getUserIconPath";
-import formatCreatedAtDate from "@/app/utils/formatCreatedAtDate";
 
 interface AsagohanResponse {
   id: string;
@@ -50,6 +49,11 @@ export async function GET(
     )
     .gte("created_at", date.toISOString())
     .returns<AsagohanResponse[]>();
+
+  const formatCreatedAtDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return `${date.getHours()}時${date.getMinutes()}分`;
+  };
 
   if (error) {
     return new Response(`Internal Server Error: ${error.message}`, {
