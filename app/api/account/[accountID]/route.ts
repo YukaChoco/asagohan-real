@@ -52,7 +52,6 @@ export async function GET(
 
   const thisWeekAsagohans = Array.from({ length: 7 }, (_, i) => {
     const date = new Date(dateString);
-    date.setHours(date.getHours() - 6);
 
     date.setDate(date.getDate() + i - 6);
     const targetAsagohan = asagohans.find(

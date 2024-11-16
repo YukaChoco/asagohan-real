@@ -22,11 +22,9 @@ export async function GET(request: Request) {
 
   const date = new Date(dateString);
   const todayStart = date;
-  todayStart.setHours(todayStart.getHours() - 6);
   todayStart.setHours(0, 0, 0, 0); // 今日の開始時刻 (00:00:00)
 
   const todayEnd = date;
-  todayEnd.setHours(todayEnd.getHours() - 6);
   todayEnd.setHours(11, 59, 59, 999); // 今日の終了時刻 (11:59:59)
 
   const { data, error } = await supabase
