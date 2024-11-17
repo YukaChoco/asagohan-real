@@ -18,6 +18,29 @@ const useTodayAsagohans = (userID: string | null, authLoading: boolean) => {
     return asagohans.data;
   };
 
+  const refetchAsagohans = async () => {
+    if (authLoading) {
+      return;
+    }
+    if (!userID) {
+      setAsagohans(null);
+      setFetching(false);
+      return;
+    }
+    setFetching(true);
+    getTodayAsagohans(userID)
+      .then((asagohans) => {
+        setAsagohans(asagohans);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        setFetching(false);
+        return;
+      });
+  };
+
   useEffect(() => {
     if (authLoading) {
       return;
@@ -99,6 +122,7 @@ const useTodayAsagohans = (userID: string | null, authLoading: boolean) => {
     todayAsagohansFetching: fetching,
     setAsagohanLike,
     onClickLike,
+    refetchAsagohans,
   };
 };
 

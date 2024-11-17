@@ -1,5 +1,6 @@
 "use client";
 import styles from "./page.module.css";
+import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "./components/Header";
@@ -17,22 +18,44 @@ import useUserAuth from "./hooks/useUserAuth";
 import { useState } from "react";
 import Loading from "./components/Loading";
 import NoAuthenticatedModal from "./components/NoAuthenticatedModal";
-import sendComment from "./utils/sendComment";
+import useSendComment from "./hooks/useSendComment";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   const { userID, accountID, authLoading } = useUserAuth();
-  const { asagohans, todayAsagohansFetching, onClickLike } = useTodayAsagohans(
-    userID,
-    authLoading,
-  );
+  const { asagohans, todayAsagohansFetching, onClickLike, refetchAsagohans } =
+    useTodayAsagohans(userID, authLoading);
   const [selectedAsagohan, setSelectedAsagohan] = useState<Asagohan | null>(
     null,
   );
 
-  const [currentComment, setCurrentComment] = useState<string>(
-    ""
-  );
+  const [currentComment, setCurrentComment] = useState<string>("");
 
+  const { sendComment, sending: commentSending } =
+    useSendComment(refetchAsagohans);
+
+  useEffect(() => {
+    if (!userID || !asagohans) {
+      return;
+    }
+    // パラメーターを取得
+    const url = new URL(window.location.href);
+    const selectedID = url.searchParams.get("selectedID");
+    console.log("selectedID", selectedID);
+    if (selectedID) {
+      const selected = asagohans.find(
+        (asagohan) => `${asagohan.id}` === selectedID,
+      );
+      console.log("asagohans", asagohans);
+      console.log("selected", selected);
+      if (selected) {
+        setSelectedAsagohan(selected);
+      }
+      // パラメータを削除
+      router.replace("/");
+    }
+  }, [asagohans]);
 
   if (authLoading || todayAsagohansFetching) {
     return <Loading />;
@@ -104,14 +127,17 @@ export default function Home() {
     onClickLike(asagohan);
   };
 
-  const handleSend = (asagohan: Asagohan | null, comment: string) => {
+  const handleSend = async (asagohan: Asagohan | null, comment: string) => {
     if (asagohan !== null) {
       if (userID !== null) {
-        sendComment(userID, asagohan.id, comment);
+        await sendComment(userID, asagohan.id, comment);
+        // parametorにselectedAsagohanを渡す
+        router.push(
+          `/${selectedAsagohan ? `?selectedID=${selectedAsagohan.id}` : ""}`,
+        );
       }
     }
-
-  }
+  };
 
   const drawerIsOpen = selectedAsagohan !== null;
 
@@ -211,7 +237,11 @@ export default function Home() {
               <div className={styles.usercomment}></div>
             )}
             <div className={styles.commentpush}>
-              <Stack direction="row" spacing={2} sx={{ width: "100%", maxWidth: "100%" }}>
+              <Stack
+                direction="row"
+                spacing={2}
+                sx={{ width: "100%", maxWidth: "100%" }}
+              >
                 <TextField
                   label="コメントを入力..."
                   variant="outlined"
@@ -228,13 +258,13 @@ export default function Home() {
                   onClick={() => handleSend(selectedAsagohan, currentComment)}
                   variant="contained"
                   endIcon={<SendIcon />}
+                  disabled={commentSending}
                   sx={{ backgroundColor: "#5a2d0c", color: "white" }}
                 >
                   Send
                 </Button>
               </Stack>
             </div>
-
           </div>
         </Drawer>
         {asagohans?.map((asagohan, index) => {
