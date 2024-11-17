@@ -1,12 +1,12 @@
 "use client";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import Avatar from "@mui/material/Avatar";
 import { Badge, Button } from "@mui/material";
 import usePostUser from "@/app/hooks/usePostUser";
 import Loading from "@/app/components/Loading";
 import signUp from "@/app/signUp";
+import { useRouter } from "next/navigation";
 
 interface SmallAvatarProps {
   alt: string;
