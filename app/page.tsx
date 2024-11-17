@@ -17,10 +17,8 @@ import { useState } from "react";
 import Loading from "./components/Loading";
 import NoAuthenticatedModal from "./components/NoAuthenticatedModal";
 import sendComment from "./utils/sendComment";
-import useFCM from "./hooks/useFCM";
 
 export default function Home() {
-  useFCM();
   const { userID, accountID, authLoading } = useUserAuth();
   const { asagohans, todayAsagohansFetching, onClickLike } = useTodayAsagohans(
     userID,
