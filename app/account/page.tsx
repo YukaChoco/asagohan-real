@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import Avatar from "@mui/material/Avatar";
 import { Badge, Button } from "@mui/material";
@@ -21,7 +20,6 @@ const SmallAvatar: React.FC<SmallAvatarProps> = (props) => (
 );
 
 export default function Home() {
-  const router = useRouter();
   const [accountID, setAccountID] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -93,7 +91,7 @@ export default function Home() {
       if (userID && selectedImageFile) {
         await postUser(userID, username, accountID, selectedImageFile);
         setLoading(false);
-        router.push("/");
+        window.location.href = "/";
       }
 
       // サインアップが成功した場合、ユーザー情報をデータベースに保存

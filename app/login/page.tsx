@@ -1,13 +1,11 @@
 "use client";
 import { useState, ChangeEvent, FormEvent } from "react";
-import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import { Button } from "@mui/material";
 import Loading from "@/app/components/Loading";
 import signIn from "@/app/signIn";
 
 export default function Home() {
-  const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -45,7 +43,8 @@ export default function Home() {
     } else {
       console.log("ログイン成功");
       setErrorMessage(""); // エラーメッセージはクリア
-      router.push("/");
+
+      window.location.href = "/";
     }
     setLoading(false);
   };
