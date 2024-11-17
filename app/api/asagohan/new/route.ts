@@ -7,9 +7,9 @@ export async function POST(request: Request) {
   const nowDate = toZonedTime(new Date(), "Asia/Tokyo");
 
   // 3時から12時までしか朝ごはんを登録できない
-  if (nowDate.getHours() < 3 || nowDate.getHours() >= 12) {
+  if (nowDate.getHours() < 3 || nowDate.getHours() >= 18) {
     return Response.json(
-      { error: "3時から12時までしか投稿できません。" },
+      { error: "3時から18時までしか投稿できません。" },
       { status: 400 },
     );
   }
