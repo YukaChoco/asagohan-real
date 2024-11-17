@@ -7,6 +7,7 @@ const vapidKey = process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY;
 
 const useFCM = () => {
   const [fcmToken, setToken] = useState<string | null>(null);
+  console.log("fcmToken:", fcmToken);
 
   useEffect(() => {
     const messaging = getMessaging(app);
