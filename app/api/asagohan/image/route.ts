@@ -10,10 +10,6 @@ export async function POST(request: Request) {
   }
 
   try {
-    // ファイルのバイナリデータを読み込む
-    const arrayBuffer = await asagohanImage.arrayBuffer();
-    const bytes = new Uint8Array(arrayBuffer);
-
     // Supabaseのstorageにファイルをアップロード
     const { error } = await supabase.storage
       .from("asagohans")

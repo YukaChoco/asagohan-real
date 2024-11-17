@@ -9,7 +9,6 @@ import { Avatar } from "@mui/material";
 import * as React from "react";
 import Drawer from "@mui/material/Drawer";
 import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
 import SendIcon from "@mui/icons-material/Send";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
@@ -19,9 +18,11 @@ import { useState } from "react";
 import Loading from "./components/Loading";
 import NoAuthenticatedModal from "./components/NoAuthenticatedModal";
 import useSendComment from "./hooks/useSendComment";
+import { useFCM } from "./hooks/useFCM";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
+  useFCM();
   const router = useRouter();
   const { userID, accountID, authLoading } = useUserAuth();
   const { asagohans, todayAsagohansFetching, onClickLike, refetchAsagohans } =
@@ -65,10 +66,7 @@ export default function Home() {
     return (
       <div className={styles.page}>
         <Header>
-          <div
-            className={styles.first}
-            onClick={() => window.location.reload()}
-          >
+          <div className={styles.first} onClick={() => router.refresh()}>
             <Image
               className={styles.aikon}
               src="ロゴアイコン.svg"
@@ -76,7 +74,7 @@ export default function Home() {
               width={60}
               height={60}
             />
-            <h1 className={styles.h1} onClick={() => window.location.reload()}>
+            <h1 className={styles.h1} onClick={() => router.refresh()}>
               起きろ!
               <br />
               朝ごはんReal.
@@ -144,7 +142,7 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <Header>
-        <div className={styles.first} onClick={() => window.location.reload()}>
+        <div className={styles.first} onClick={() => router.refresh()}>
           <Image
             className={styles.aikon}
             src="ロゴアイコン.svg"
@@ -152,7 +150,7 @@ export default function Home() {
             width={60}
             height={60}
           />
-          <h1 className={styles.h1} onClick={() => window.location.reload()}>
+          <h1 className={styles.h1} onClick={() => router.refresh()}>
             起きろ!
             <br />
             朝ごはんReal.

@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import type { UserProfile } from "@/app/types/User";
-import supabase from "../supabase";
 
 const useUserProfile = (accountID: string) => {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);

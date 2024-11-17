@@ -24,33 +24,33 @@ const useUserAuth = () => {
     }
   };
 
-  const checkUserAuth = async () => {
-    try {
-      const checkCurrentUserIDResponse = await checkCurrentUserID();
-      const currentUserID = checkCurrentUserIDResponse.userID;
-      const errorMessage = checkCurrentUserIDResponse.errorMessage;
-      if (checkCurrentUserIDResponse.errorMessage) {
-        console.error("Error checking authentication:", errorMessage);
-        throw new Error(checkCurrentUserIDResponse.errorMessage);
-      }
-      if (currentUserID) {
-        setIsAuthenticated(true);
-        setUserID(currentUserID);
-        await fetchAccountID(currentUserID);
-      } else {
+  useEffect(() => {
+    const checkUserAuth = async () => {
+      try {
+        const checkCurrentUserIDResponse = await checkCurrentUserID();
+        const currentUserID = checkCurrentUserIDResponse.userID;
+        const errorMessage = checkCurrentUserIDResponse.errorMessage;
+        if (checkCurrentUserIDResponse.errorMessage) {
+          console.error("Error checking authentication:", errorMessage);
+          throw new Error(checkCurrentUserIDResponse.errorMessage);
+        }
+        if (currentUserID) {
+          setIsAuthenticated(true);
+          setUserID(currentUserID);
+          await fetchAccountID(currentUserID);
+        } else {
+          setIsAuthenticated(false);
+          setUserID(null);
+        }
+      } catch (error) {
+        console.error("Error checking authentication:", error);
         setIsAuthenticated(false);
         setUserID(null);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Error checking authentication:", error);
-      setIsAuthenticated(false);
-      setUserID(null);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
 
-  useEffect(() => {
     checkUserAuth();
   }, []);
 
