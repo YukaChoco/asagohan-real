@@ -1,4 +1,6 @@
 {
-  "rules": {},
+  "rules": {
+    "indent": "error"
+  },
   "extends": ["next/core-web-vitals", "next/typescript", "prettier"]
 }
