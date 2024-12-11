@@ -4,6 +4,7 @@ import styles from "./page.module.css";
 import { Button } from "@mui/material";
 import Loading from "@/app/components/Loading";
 import signIn from "@/app/signIn";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [email, setEmail] = useState<string>("");
@@ -43,6 +44,7 @@ export default function Home() {
     } else {
       console.log("ログイン成功");
       setErrorMessage(""); // エラーメッセージはクリア
+
       window.location.href = "/";
     }
     setLoading(false);

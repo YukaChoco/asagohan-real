@@ -9,7 +9,6 @@ import { Avatar } from "@mui/material";
 import * as React from "react";
 import Drawer from "@mui/material/Drawer";
 import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
 import SendIcon from "@mui/icons-material/Send";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
@@ -19,9 +18,11 @@ import { useState } from "react";
 import Loading from "./components/Loading";
 import NoAuthenticatedModal from "./components/NoAuthenticatedModal";
 import useSendComment from "./hooks/useSendComment";
+import useFCM from "./hooks/useFCM";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const {} = useFCM();
   const router = useRouter();
   const { userID, accountID, authLoading } = useUserAuth();
   const { asagohans, todayAsagohansFetching, onClickLike, refetchAsagohans } =

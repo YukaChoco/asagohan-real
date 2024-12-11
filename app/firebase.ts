@@ -16,7 +16,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 console.log("Firebase app initialized:", app);
 
 export const auth = getAuth(app);
@@ -24,3 +24,20 @@ export const auth = getAuth(app);
 // // メッセージングサービスを取得
 // export const messaging = getMessaging(app);
 // getToken(messaging, { vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY });
+
+// export const requestPermission = () => {
+//   console.log("Requesting permission...");
+//   Notification.requestPermission().then((permission) => {
+//     if (permission === "granted") {
+//       console.log("Notification permission granted.");
+//     }
+//   });
+// };
+
+// export const onMessageListener = () =>
+//   new Promise((resolve) => {
+//     onMessage(messaging, (payload) => {
+//       console.log("payload", payload);
+//       resolve(payload);
+//     });
+//   });

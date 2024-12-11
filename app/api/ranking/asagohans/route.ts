@@ -18,7 +18,7 @@ interface AsagohanResponse {
   };
 }
 
-export async function GET(_: Request) {
+export async function GET() {
   // 今日投稿された朝ごはんのみを取得
   const date = toZonedTime(new Date(), "Asia/Tokyo");
   date.setHours(date.getHours() + 9);
