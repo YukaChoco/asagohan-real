@@ -1,3 +1,4 @@
+import { MORNING_POST_END, MORNING_POST_START } from "@/app/const";
 import supabase from "@/app/supabase";
 import { toZonedTime } from "date-fns-tz";
 
@@ -6,10 +7,15 @@ export async function POST(request: Request) {
 
   const nowDate = toZonedTime(new Date(), "Asia/Tokyo");
 
-  // 3時から12時までしか朝ごはんを登録できない
-  if (nowDate.getHours() < 0 || nowDate.getHours() >= 12) {
+  // MORNING_POST_START時からMORNING_POST_END時までしか朝ごはんを登録できない
+  if (
+    nowDate.getHours() < MORNING_POST_START ||
+    nowDate.getHours() >= MORNING_POST_END
+  ) {
     return Response.json(
-      { error: "3時から18時までしか投稿できません。" },
+      {
+        error: `${MORNING_POST_START}時から${MORNING_POST_END}時までしか投稿できません。`,
+      },
       { status: 400 },
     );
   }
