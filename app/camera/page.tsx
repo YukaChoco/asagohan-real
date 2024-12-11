@@ -8,6 +8,7 @@ import usePostAsagohan from "@/app/hooks/usePostAsagohan";
 import useUserAuth from "@/app/hooks/useUserAuth";
 import Loading from "@/app/components/Loading";
 import NoAuthenticatedModal from "@/app/components/NoAuthenticatedModal";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const { userID, authLoading } = useUserAuth();

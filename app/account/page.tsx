@@ -6,6 +6,7 @@ import { Badge, Button } from "@mui/material";
 import usePostUser from "@/app/hooks/usePostUser";
 import Loading from "@/app/components/Loading";
 import signUp from "@/app/signUp";
+import { useRouter } from "next/navigation";
 
 interface SmallAvatarProps {
   alt: string;
