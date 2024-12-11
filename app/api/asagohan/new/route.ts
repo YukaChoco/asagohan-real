@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   // 3時から12時までしか朝ごはんを登録できない
   if (nowDate.getHours() < 0 || nowDate.getHours() >= 12) {
     return Response.json(
-      { error: "3時から12時までしか投稿できません。" },
+      { error: "3時から18時までしか投稿できません。" },
       { status: 400 },
     );
   }
