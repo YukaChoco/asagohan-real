@@ -7,7 +7,6 @@ import signIn from "@/app/signIn";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -45,7 +44,8 @@ export default function Home() {
     } else {
       console.log("ログイン成功");
       setErrorMessage(""); // エラーメッセージはクリア
-      router.push("/");
+
+      window.location.href = "/";
     }
     setLoading(false);
   };

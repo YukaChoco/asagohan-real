@@ -11,7 +11,6 @@ import NoAuthenticatedModal from "@/app/components/NoAuthenticatedModal";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const router = useRouter();
   const { userID, authLoading } = useUserAuth();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [inputFile, setInputFile] = useState<File | null>(null);
@@ -65,7 +64,7 @@ export default function Home() {
     if (inputFile) {
       await postAsagohan(newName, inputFile); // Post }the new name and the image
       //   homeへ
-      router.push("/");
+      window.location.href = "/";
     } else {
       console.error("画像が選択されていません");
     }
@@ -76,7 +75,7 @@ export default function Home() {
     if (inputFile) {
       await retryPostAsagohan(newName, inputFile); // Post }the new name and the image
       //   homeへ
-      router.push("/");
+      window.location.href = "/";
     } else {
       console.error("画像が選択されていません");
     }
@@ -169,7 +168,7 @@ export default function Home() {
         <h1
           className={styles.h1}
           onClick={() => {
-            router.push("/");
+            window.location.href = "/";
           }}
         >
           起きろ!

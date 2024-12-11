@@ -21,7 +21,6 @@ const SmallAvatar: React.FC<SmallAvatarProps> = (props) => (
 );
 
 export default function Home() {
-  const router = useRouter();
   const [accountID, setAccountID] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -93,7 +92,7 @@ export default function Home() {
       if (userID && selectedImageFile) {
         await postUser(userID, username, accountID, selectedImageFile);
         setLoading(false);
-        router.push("/");
+        window.location.href = "/";
       }
 
       // サインアップが成功した場合、ユーザー情報をデータベースに保存

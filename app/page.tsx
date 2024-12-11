@@ -18,11 +18,11 @@ import { useState } from "react";
 import Loading from "./components/Loading";
 import NoAuthenticatedModal from "./components/NoAuthenticatedModal";
 import useSendComment from "./hooks/useSendComment";
-import { useFCM } from "./hooks/useFCM";
+import useFCM from "./hooks/useFCM";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-  useFCM();
+  const {} = useFCM();
   const router = useRouter();
   const { userID, accountID, authLoading } = useUserAuth();
   const { asagohans, todayAsagohansFetching, onClickLike, refetchAsagohans } =
@@ -66,7 +66,10 @@ export default function Home() {
     return (
       <div className={styles.page}>
         <Header>
-          <div className={styles.first} onClick={() => router.refresh()}>
+          <div
+            className={styles.first}
+            onClick={() => window.location.reload()}
+          >
             <Image
               className={styles.aikon}
               src="ロゴアイコン.svg"
@@ -74,7 +77,7 @@ export default function Home() {
               width={60}
               height={60}
             />
-            <h1 className={styles.h1} onClick={() => router.refresh()}>
+            <h1 className={styles.h1} onClick={() => window.location.reload()}>
               起きろ!
               <br />
               朝ごはんReal.
@@ -142,7 +145,7 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <Header>
-        <div className={styles.first} onClick={() => router.refresh()}>
+        <div className={styles.first} onClick={() => window.location.reload()}>
           <Image
             className={styles.aikon}
             src="ロゴアイコン.svg"
@@ -150,7 +153,7 @@ export default function Home() {
             width={60}
             height={60}
           />
-          <h1 className={styles.h1} onClick={() => router.refresh()}>
+          <h1 className={styles.h1} onClick={() => window.location.reload()}>
             起きろ!
             <br />
             朝ごはんReal.

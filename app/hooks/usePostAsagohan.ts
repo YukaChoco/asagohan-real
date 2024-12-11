@@ -5,7 +5,6 @@ import { MORNING_POST_END, MORNING_POST_START } from "@/app/const";
 import { useRouter } from "next/navigation";
 
 const usePostAsagohan = (userID: string | null) => {
-  const router = useRouter();
   const [sending, setSending] = useState<boolean>(false);
   const [canSend, setCanSend] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -64,7 +63,7 @@ const usePostAsagohan = (userID: string | null) => {
       return;
     }
 
-    router.push("/");
+    window.location.href = "/";
   };
 
   const retryPostAsagohan = async (title: string, image: File) => {
